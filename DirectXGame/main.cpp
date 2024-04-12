@@ -18,6 +18,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	PrimitiveDrawer* primitiveDrawer = nullptr;
 	GameScene* gameScene = nullptr;
 
+
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
 	win->CreateGameWindow();
