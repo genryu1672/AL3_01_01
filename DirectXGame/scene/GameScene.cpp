@@ -36,7 +36,7 @@ void GameScene::Initialize() {
 	//軸方向表示が参照するビュープロジェクションを指定する(アドレス渡し)
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&debugCamera_->GetViewProjection());
 }
-
+//
 void GameScene::Update() {
 	//スプライトの今の座標を取得
 	Vector2 position = sprite_->GetPosition();
