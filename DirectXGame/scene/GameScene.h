@@ -7,7 +7,7 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-
+#include "DebugCamera.h"
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -43,6 +43,36 @@ private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
+	
+	//デバックカメラ
+	DebugCamera* debugCamera_ = nullptr;
+
+
+
+	//ImGuiで値を入力する変数
+	float inputFloat3[3] = {0, 0, 0};
+
+
+	//ワールドトランスフォーム
+	WorldTransform worldTransform_;
+	
+	//ビュープロジェクション
+	ViewProjection viewProjection_;
+
+	//スプライト
+	Sprite* sprite_ = nullptr;
+
+	//3Dモデル
+	Model* model_ = nullptr;
+
+
+	//テクチャハンドル
+	uint32_t textureHandle_ = 0;
+
+
+
+
+
 
 	/// <summary>
 	/// ゲームシーン用
