@@ -12,7 +12,9 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 	//ファイルを指定してテクスチャを読み込む
-	textureHandle_ = TextureManager::Load("")
+	textureHandle_ = TextureManager::Load("uvChecker.png");
+	//3Dモデルの生成
+	model_ = Model::Create();
 }
 
 void GameScene::Update() {}
