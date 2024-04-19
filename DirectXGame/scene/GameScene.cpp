@@ -4,7 +4,11 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {}
+GameScene::~GameScene() {
+	//デストラクタ
+	//3Dモデルデータの解放
+	delete model_;
+}
 
 void GameScene::Initialize() {
 

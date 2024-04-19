@@ -19,6 +19,10 @@ public: // メンバ関数
 	/// </summary>
 	GameScene();
 
+	//ビュープロジェクション
+	ViewProjection viewProjection_;
+
+
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
