@@ -11,6 +11,8 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+	//ファイルを指定してテクスチャを読み込む
+	textureHandle_ = TextureManager::Load("")
 }
 
 void GameScene::Update() {}
