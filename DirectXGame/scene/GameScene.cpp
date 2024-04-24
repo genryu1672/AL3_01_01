@@ -8,6 +8,8 @@ GameScene::~GameScene() {
 	//デストラクタ
 	//3Dモデルデータの解放
 	delete model_;
+	//自キャラの開放
+	delete player_;
 }
 
 void GameScene::Initialize() {
@@ -21,9 +23,17 @@ void GameScene::Initialize() {
 	model_ = Model::Create();
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
+	//自キャラの生成
+	player_=new Player;
+	//自キャラの初期化
+	player_->Initialize(model_,textureHandle_);
 }
 
-void GameScene::Update() {}
+void GameScene::Update() {
+	//自キャラの更新
+	player_->Update();
+
+}
 
 void GameScene::Draw() {
 
@@ -51,7 +61,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-
+	// 自キャラの描画
+	player_->Draw(viewProjection_);
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -66,6 +77,5 @@ void GameScene::Draw() {
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
-
 #pragma endregion
 }
