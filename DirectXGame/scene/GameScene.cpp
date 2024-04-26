@@ -19,6 +19,11 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+	
+	
+	//ビュープロジェクションの初期化
+	viewProjection_.Initialize();
+
 	// 3Dモデルの生成
 	modelBlock_ = Model::Create();
 	//要素数
@@ -39,22 +44,22 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 	//ブロックの更新
-	//for (WorldTransform* worldTransformBlock : worldTransformBlocks_) {
-	////平行移動
-	//	Matrix4x4 result{
-	//		1.0f,0.0f,0.0f,0.0f,
-	//		0.0f,1.0f,0.0f,0.0f,
-	//		0.0f,0.0f,1.0f,0.0f,
-	//		worldTransformBlock->translation_.x,
-	//		worldTransformBlock->translation_.y,
-	//		worldTransformBlock->translation_.z,
-	//		1.0f
-	//	};
-	//	//平行移動だけ代入
-	//	worldTransformBlock->matWorld_ = result;
-	//	//定数バッファに転送する
-	//	worldTransformBlock->TransferMatrix();
-	//}
+	for (WorldTransform* worldTransformBlock : worldTransformBlocks_) {
+	//平行移動
+		Matrix4x4 result{
+			1.0f,0.0f,0.0f,0.0f,
+			0.0f,1.0f,0.0f,0.0f,
+			0.0f,0.0f,1.0f,0.0f,
+			worldTransformBlock->translation_.x,
+			worldTransformBlock->translation_.y,
+			worldTransformBlock->translation_.z,
+			1.0f
+		};
+		//平行移動だけ代入
+		worldTransformBlock->matWorld_ = result;
+		//定数バッファに転送する
+		worldTransformBlock->TransferMatrix();
+	}
 }
 
 void GameScene::Draw() {

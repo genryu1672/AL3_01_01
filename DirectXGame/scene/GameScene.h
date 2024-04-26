@@ -51,7 +51,7 @@ private: // メンバ変数
 
 	// 3Dモデルデータ
 	Model* modelBlock_ = nullptr;
-	ViewProjection* viewProjection_ = nullptr;
+	ViewProjection viewProjection_ ;
 
 	/// <summary>
 	/// ゲームシーン用
