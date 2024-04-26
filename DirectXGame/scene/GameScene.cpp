@@ -4,7 +4,15 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {}
+GameScene::~GameScene() {
+	// デストラクタ
+	// 3Dモデルデータの解放
+	delete modelBlock_;
+	for (WorldTransform* worldTransformBlock : worldTransformBlocks_) {
+		delete worldTransformBlock;
+	}
+	worldTransformBlocks_.clear();
+}
 
 void GameScene::Initialize() {
 
@@ -12,10 +20,42 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 	// 3Dモデルの生成
-	model_ = Model::Create();
+	modelBlock_ = Model::Create();
+	//要素数
+	const uint32_t kNumBlockHorizontal = 20;
+	//ブロック一個分の横幅
+	const float kBlockWidth = 2.0f;
+	//要素数を変更する
+	worldTransformBlocks_.resize(kNumBlockHorizontal);
+	//キューブの生成
+	for (uint32_t i = 0; i < kNumBlockHorizontal; ++i) {
+	
+		worldTransformBlocks_[i] = new WorldTransform();
+		worldTransformBlocks_[i]->Initialize();
+		worldTransformBlocks_[i]->translation_.x = kBlockWidth * i;
+		worldTransformBlocks_[i]-> translation_.y = 0.0f;
+	}
 }
 
-void GameScene::Update() {}
+void GameScene::Update() {
+	//ブロックの更新
+	//for (WorldTransform* worldTransformBlock : worldTransformBlocks_) {
+	////平行移動
+	//	Matrix4x4 result{
+	//		1.0f,0.0f,0.0f,0.0f,
+	//		0.0f,1.0f,0.0f,0.0f,
+	//		0.0f,0.0f,1.0f,0.0f,
+	//		worldTransformBlock->translation_.x,
+	//		worldTransformBlock->translation_.y,
+	//		worldTransformBlock->translation_.z,
+	//		1.0f
+	//	};
+	//	//平行移動だけ代入
+	//	worldTransformBlock->matWorld_ = result;
+	//	//定数バッファに転送する
+	//	worldTransformBlock->TransferMatrix();
+	//}
+}
 
 void GameScene::Draw() {
 
@@ -39,6 +79,13 @@ void GameScene::Draw() {
 #pragma region 3Dオブジェクト描画
 	// 3Dオブジェクト描画前処理
 	Model::PreDraw(commandList);
+	
+	//ブロックの描画
+	for (WorldTransform* worldTransformBlock : worldTransformBlocks_) {
+		modelBlock_->Draw(*worldTransformBlock, viewProjection_);
+	}
+
+
 
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる

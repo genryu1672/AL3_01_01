@@ -7,7 +7,7 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-
+#include<vector>
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -18,6 +18,11 @@ public: // メンバ関数
 	/// コンストクラタ
 	/// </summary>
 	GameScene();
+
+	std::vector<WorldTransform*> worldTransformBlocks_;
+
+
+
 
 	/// <summary>
 	/// デストラクタ
@@ -45,8 +50,8 @@ private: // メンバ変数
 	Audio* audio_ = nullptr;
 
 	// 3Dモデルデータ
-	Model* model_ = nullptr;
-
+	Model* modelBlock_ = nullptr;
+	ViewProjection* viewProjection_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用
