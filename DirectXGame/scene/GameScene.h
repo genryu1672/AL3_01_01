@@ -44,6 +44,10 @@ private: // メンバ変数
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 
+	// 3Dモデルデータ
+	Model* model_ = nullptr;
+
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
