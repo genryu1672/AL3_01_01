@@ -6,6 +6,8 @@ GameScene::GameScene() {}
 
 GameScene::~GameScene() {
 	// デストラクタ
+	delete debugCamera_;
+	
 	// 3Dモデルデータの解放
 	delete modelBlock_;
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
@@ -28,6 +30,11 @@ void GameScene::Initialize() {
 	// ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 
+	// デバックカメラの生成
+	debugCamera_ = new DebugCamera(1280, 720);
+
+
+
 	// 3Dモデルの生成
 	modelBlock_ = Model::Create();
 	// 要素数
@@ -46,6 +53,9 @@ void GameScene::Initialize() {
 	// キューブの生成
 	for (uint32_t i = 0; i < kNumBlockVirtical; ++i) {
 		for (uint32_t j = 0; j < kNumBlockHorizontal; ++j) {
+			
+			if ((i + j) % 2 == 0)//穴あきする
+				continue;
 
 			worldTransformBlocks_[i][j] = new WorldTransform();
 			worldTransformBlocks_[i][j]->Initialize();
@@ -58,6 +68,9 @@ void GameScene::Update() {
 	// ブロックの更新   (これをコメントアウトしちゃうと実行したときに出てくるブロックが一個だけになる）
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+			if (!worldTransformBlock)
+				continue;
+			
 			// 平行移動
 			Matrix4x4 result{
 			    1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, worldTransformBlock->translation_.x, worldTransformBlock->translation_.y, worldTransformBlock->translation_.z,
@@ -67,6 +80,29 @@ void GameScene::Update() {
 			// 定数バッファに転送する
 			worldTransformBlock->TransferMatrix();
 		}
+	}
+	//デバックカメラの更新
+	debugCamera_->Update();
+	#ifdef _DEBUG
+	if (input_->TriggerKey(DIK_SPACE))
+	{
+		// デバックカメラの有効
+		 isDebugCameraActive_ = !isDebugCameraActive_;
+	}
+	#endif
+	//カメラの処理
+	if (isDebugCameraActive_)
+	{
+		debugCamera_->Update();//デバックカメラの更新
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;//デバックカメラのビュー行列
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;//デバックカメラのプロジェクション行列
+		//ビュープロジェクション行列の転送
+		viewProjection_.TransferMatrix();
+	} 
+	else
+	{
+		//ビュープロジェクション行列の更新と転送
+		viewProjection_.UpdateMatrix();
 	}
 }
 void GameScene::Draw() {
@@ -95,6 +131,10 @@ void GameScene::Draw() {
 	//ブロックの描画
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+			
+			if (!worldTransformBlock)//穴あき模様
+				continue;
+
 			modelBlock_->Draw(*worldTransformBlock, viewProjection_);
 		}
 	}
