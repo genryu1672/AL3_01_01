@@ -1,7 +1,7 @@
 #include "GameScene.h"
 #include "TextureManager.h"
 #include <cassert>
-
+#include"MathUtilityforText.h"
 GameScene::GameScene() {}
 
 GameScene::~GameScene() {
@@ -65,22 +65,34 @@ void GameScene::Initialize() {
 	}
 }
 void GameScene::Update() {
+	
+	// 自キャラの更新
+	//player_->Update();
+
+
+	
+
+
+
 	// ブロックの更新   (これをコメントアウトしちゃうと実行したときに出てくるブロックが一個だけになる）
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
 			if (!worldTransformBlock)
 				continue;
 			
-			// 平行移動
-			Matrix4x4 result{
-			    1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, worldTransformBlock->translation_.x, worldTransformBlock->translation_.y, worldTransformBlock->translation_.z,
-			    1.0f};
+			Matrix4x4 matWorld = MakeAffineMatrix(worldTransformBlock->scale_, worldTransformBlock->rotation_, worldTransformBlock->translation_);
+
+			worldTransformBlock->matWorld_ = matWorld;
+
 			// 平行移動だけ代入
-			worldTransformBlock->matWorld_ = result;
+			//worldTransformBlock->matWorld_ = result;
 			// 定数バッファに転送する
-			worldTransformBlock->TransferMatrix();
+			//worldTransformBlock->TransferMatrix();
 		}
 	}
+	
+	
+	    
 	//デバックカメラの更新
 	debugCamera_->Update();
 	#ifdef _DEBUG

@@ -25,7 +25,7 @@ public: // メンバ関数
 	//デバックカメラの有効
 	bool isDebugCameraActive_ = false;
 	
-
+	
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
