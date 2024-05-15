@@ -87,7 +87,7 @@ void GameScene::Update() {
 			// 平行移動だけ代入
 			//worldTransformBlock->matWorld_ = result;
 			// 定数バッファに転送する
-			//worldTransformBlock->TransferMatrix();
+			worldTransformBlock->TransferMatrix();
 		}
 	}
 	
