@@ -80,14 +80,15 @@ void GameScene::Update() {
 			if (!worldTransformBlock)
 				continue;
 			
-			Matrix4x4 matWorld = MakeAffineMatrix(worldTransformBlock->scale_, worldTransformBlock->rotation_, worldTransformBlock->translation_);
+			//Matrix4x4 matWorld = MakeAffineMatrix(worldTransformBlock->scale_, worldTransformBlock->rotation_, worldTransformBlock->translation_);
 
-			worldTransformBlock->matWorld_ = matWorld;
+			//worldTransformBlock->matWorld_ = matWorld;
 
 			// 平行移動だけ代入
 			//worldTransformBlock->matWorld_ = result;
 			// 定数バッファに転送する
-			worldTransformBlock->TransferMatrix();
+			//worldTransformBlock->TransferMatrix();
+			worldTransformBlock->UpdateMatrix();//まとめて呼び出す
 		}
 	}
 	
