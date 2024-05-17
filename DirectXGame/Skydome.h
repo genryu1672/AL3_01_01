@@ -1,26 +1,52 @@
-#include"GameScene.h"
-#include"WorldTransform.h"
 #pragma once
-class Skydome {
-public:
-	///<summary>
-	///初期化
-	/// </summary>
-	void Initialize();
+#include "Audio.h"
+#include "DirectXCommon.h"
+#include "Input.h"
+#include "Model.h"
+#include "Sprite.h"
+#include "ViewProjection.h"
+#include "WorldTransform.h"
 
-	///< summary>
-	/// 更新
-	///  </summary>
+/// <summary>
+/// 天球
+/// </summary>
+class Skydome {
+
+public:
+	// メンバ関数
+
+	/// <summary>
+	/// コンストクラタ
+	/// </summary>
+	Skydome();
+
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~Skydome();
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	void Initialize(Model* model, ViewProjection* viewProjection);
+
+	/// <summary>
+	/// 毎フレーム処理
+	/// </summary>
 	void Update();
 
-	///< summary>
+	/// <summary>
 	/// 描画
-	///  </summary>
+	/// </summary>
 	void Draw();
 
-	private:
-		//ワールド変換データ
-	    WorldTransform worldTransform_;
-		//モデル
-	    Model* model_ = nullptr;
+private:
+	// ワールド変換データ
+	WorldTransform worldTransform;
+
+	// モデルデータ
+	Model* model_ = nullptr;
+
+	// ビュープロジェクション
+	ViewProjection* viewProjection_ = nullptr;
 };

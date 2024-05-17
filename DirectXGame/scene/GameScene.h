@@ -1,14 +1,16 @@
 #pragma once
 
 #include "Audio.h"
+#include "DebugCamera.h"
 #include "DirectXCommon.h"
 #include "Input.h"
 #include "Model.h"
+#include "Skydome.h"
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
-#include<vector>
-#include"DebugCamera.h"
+#include <vector>
+
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -20,12 +22,6 @@ public: // メンバ関数
 	/// </summary>
 	GameScene();
 
-	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
-	
-	//デバックカメラの有効
-	bool isDebugCameraActive_ = false;
-	
-	
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
@@ -51,14 +47,33 @@ private: // メンバ変数
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 
-	// 3Dモデルデータ
-	Model* modelBlock_ = nullptr;
-	ViewProjection viewProjection_ ;
-
-	//デバックカメラ
-	DebugCamera* debugCamera_ = nullptr;
-
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
+
+	/// ゲームシーン用
+	uint32_t textureHandle = 0;
+
+	// 3Dモデルの生成
+	Model* model = nullptr;
+
+	// 3Dモデルデータ
+	Model* modelBlock_ = nullptr;
+
+	// 天球
+	Skydome* skyDome_ = nullptr;
+
+	// 天球モデルデータ
+	Model* modelSkydome_ = nullptr;
+
+	// ビュープロジェクション
+	ViewProjection viewProjection_;
+
+	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
+
+	// デバッグカメラ有効
+	bool isDebugCameraActive_ = false;
+
+	// デバッグカメラ
+	DebugCamera* debugCamera_ = nullptr;
 };

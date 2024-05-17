@@ -1,22 +1,28 @@
 #include "GameScene.h"
+#include "MathUtilityForText.h"
+#include "Skydome.h"
 #include "TextureManager.h"
 #include <cassert>
-#include"MathUtilityforText.h"
+
 GameScene::GameScene() {}
 
 GameScene::~GameScene() {
 	// デストラクタ
-	delete debugCamera_;
-	
+
 	// 3Dモデルデータの解放
 	delete modelBlock_;
+
+	// 天球
+	delete skyDome_;
+
+	// デバッグカメラ
+	delete debugCamera_;
+
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+
 			delete worldTransformBlock;
 		}
-		
-		
-		
 	}
 	worldTransformBlocks_.clear();
 }
@@ -28,21 +34,29 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 
 	// ビュープロジェクションの初期化
+	viewProjection_.farZ = 500;
 	viewProjection_.Initialize();
-
-	// デバックカメラの生成
-	debugCamera_ = new DebugCamera(1280, 720);
-
-
 
 	// 3Dモデルの生成
 	modelBlock_ = Model::Create();
+
+	// 天球の生成
+	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
+
+	// 天球
+	skyDome_ = new Skydome();
+
+	// 天球の初期化
+	skyDome_->Initialize(modelSkydome_, &viewProjection_);
+
 	// 要素数
 	const uint32_t kNumBlockVirtical = 10;
 	const uint32_t kNumBlockHorizontal = 20;
+
 	// ブロック一個分の横幅
 	const float kBlockWidth = 2.0f;
 	const float kBlockHeight = 2.0f;
+
 	// 要素数を変更する
 	worldTransformBlocks_.resize(kNumBlockVirtical);
 	for (uint32_t i = 0; i < kNumBlockVirtical; ++i) {
@@ -53,70 +67,66 @@ void GameScene::Initialize() {
 	// キューブの生成
 	for (uint32_t i = 0; i < kNumBlockVirtical; ++i) {
 		for (uint32_t j = 0; j < kNumBlockHorizontal; ++j) {
-			
-			if ((i + j) % 2 == 0)//穴あきする
+			if ((i + j) % 2 == 0)
 				continue;
-
 			worldTransformBlocks_[i][j] = new WorldTransform();
 			worldTransformBlocks_[i][j]->Initialize();
 			worldTransformBlocks_[i][j]->translation_.x = kBlockWidth * j;
 			worldTransformBlocks_[i][j]->translation_.y = kBlockHeight * i;
 		}
 	}
+
+	// デバッグカメラの生成
+	debugCamera_ = new DebugCamera(1280, 720);
 }
 void GameScene::Update() {
-	
-	// 自キャラの更新
-	//player_->Update();
-
-
-	
-
-
-
-	// ブロックの更新   (これをコメントアウトしちゃうと実行したときに出てくるブロックが一個だけになる）
+	// ブロックの更新
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
 			if (!worldTransformBlock)
 				continue;
-			
-			//Matrix4x4 matWorld = MakeAffineMatrix(worldTransformBlock->scale_, worldTransformBlock->rotation_, worldTransformBlock->translation_);
 
-			//worldTransformBlock->matWorld_ = matWorld;
-
+			// 平行移動
+			// Matrix4x4 result{
+			//    1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, worldTransformBlock->translation_.x, worldTransformBlock->translation_.y, worldTransformBlock->translation_.z,
+			//    1.0f};
 			// 平行移動だけ代入
-			//worldTransformBlock->matWorld_ = result;
+			// worldTransformBlock->matWorld_ = result;
+
 			// 定数バッファに転送する
-			//worldTransformBlock->TransferMatrix();
-			worldTransformBlock->UpdateMatrix();//まとめて呼び出す
+			/*worldTransformBlock->TransferMatrix();
+
+			Matrix4x4 matWorld = MakeAffineMatrix(worldTransformBlock->scale_,
+			    worldTransformBlock->rotation_, worldTransformBlock->translation_);
+
+			worldTransformBlock->matWorld_ = matWorld;*/
+
+			// アフィン返還と転送
+			worldTransformBlock->UpdateMatrix();
 		}
 	}
-	
-	
-	    
-	//デバックカメラの更新
-	debugCamera_->Update();
-	#ifdef _DEBUG
-	if (input_->TriggerKey(DIK_SPACE))
-	{
-		// デバックカメラの有効
-		 isDebugCameraActive_ = !isDebugCameraActive_;
-	}
-	#endif
-	//カメラの処理
-	if (isDebugCameraActive_)
-	{
-		debugCamera_->Update();//デバックカメラの更新
-		viewProjection_.matView = debugCamera_->GetViewProjection().matView;//デバックカメラのビュー行列
-		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;//デバックカメラのプロジェクション行列
-		//ビュープロジェクション行列の転送
+
+	// 天球の更新
+	skyDome_->Update();
+
+	// カメラの処理
+	if (isDebugCameraActive_) {
+		// デバッグカメラの更新
+		debugCamera_->Update();
+		viewProjection_.matView = debugCamera_->GetViewProjection().matView;             // デバッグカメラのビュー行列
+		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection; // デバッグカメラのプロジェクション行列
+		// ビュープロジェクション行列の転送
 		viewProjection_.TransferMatrix();
-	} 
-	else
-	{
-		//ビュープロジェクション行列の更新と転送
+	} else {
+		// ビュープロジェクション行列の更新と転送
 		viewProjection_.UpdateMatrix();
 	}
+
+#ifdef _DEBUG
+	if (input_->TriggerKey(DIK_0)) {
+		isDebugCameraActive_ = !isDebugCameraActive_;
+	}
+#endif // _DEBUG
 }
 void GameScene::Draw() {
 
@@ -140,18 +150,18 @@ void GameScene::Draw() {
 #pragma region 3Dオブジェクト描画
 	// 3Dオブジェクト描画前処理
 	Model::PreDraw(commandList);
-	
-	//ブロックの描画
+
+	// ブロックの描画
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
-			
-			if (!worldTransformBlock)//穴あき模様
+			if (!worldTransformBlock)
 				continue;
-
 			modelBlock_->Draw(*worldTransformBlock, viewProjection_);
 		}
 	}
 
+	// スカイドームの辨官
+	skyDome_->Draw();
 
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
