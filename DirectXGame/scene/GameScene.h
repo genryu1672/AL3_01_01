@@ -5,6 +5,7 @@
 #include "DirectXCommon.h"
 #include "Input.h"
 #include "Model.h"
+#include "Player.h"
 #include "Skydome.h"
 #include "Sprite.h"
 #include "ViewProjection.h"
@@ -47,33 +48,39 @@ private: // メンバ変数
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 
-	/// <summary>
-	/// ゲームシーン用
-	/// </summary>
-
-	/// ゲームシーン用
-	uint32_t textureHandle = 0;
+	// ビュープロジェクション生成
+	ViewProjection viewProjection_;
 
 	// 3Dモデルの生成
-	Model* model = nullptr;
+	Model* model_ = nullptr;
 
-	// 3Dモデルデータ
-	Model* modelBlock_ = nullptr;
+	// プレイヤーの生成
+	Player* player_ = nullptr;
 
-	// 天球
-	Skydome* skyDome_ = nullptr;
+	// 天球の生成
+	Skydome* skydome_ = nullptr;
 
-	// 天球モデルデータ
+	// 3Dモデル
 	Model* modelSkydome_ = nullptr;
 
-	// ビュープロジェクション
-	ViewProjection viewProjection_;
+	// プレイヤーモデル
+	Model* modelPlayer_ = nullptr;
+
+	// テクスチャハンドル
+	uint32_t textureHandle_ = 0;
+
+	// ブロックのモデルを読み込む
+	Model* modelBlock_ = 0;
 
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
 
-	// デバッグカメラ有効
+	// デバッグカメラの有効
 	bool isDebugCameraActive_ = false;
 
-	// デバッグカメラ
+	// デバッグカメラの生成
 	DebugCamera* debugCamera_ = nullptr;
+
+	/// <summary>
+	/// ゲームシーン用
+	/// </summary>
 };
