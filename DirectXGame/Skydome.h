@@ -1,3 +1,5 @@
+#include"GameScene.h"
+#include"WorldTransform.h"
 #pragma once
 class Skydome {
 public:
@@ -16,6 +18,9 @@ public:
 	///  </summary>
 	void Draw();
 
-
-
+	private:
+		//ワールド変換データ
+	    WorldTransform worldTransform_;
+		//モデル
+	    Model* model_ = nullptr;
 };
