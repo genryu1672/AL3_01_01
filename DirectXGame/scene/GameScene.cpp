@@ -44,7 +44,7 @@ void GameScene::Initialize() {
 	viewProjection_.farZ = 600;//これを５００とかにすると後ろの方ででっかい弾が出る。
 
 	mapChipField_ = new MapChipField;
-	mapChipField_->LoadMapChipCsv("Resource/blocks.csv");
+	mapChipField_->LoadMapchipCsv("Resources/blocks.csv");
 
 
 
