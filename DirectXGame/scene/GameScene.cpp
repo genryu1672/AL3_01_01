@@ -27,6 +27,10 @@ GameScene::~GameScene() {
 	// worldTransformBlocks_.clear();
 
 	delete debugCamera_;
+
+	//マップチップフィールドの開放
+	delete mapChipField_;
+
 }
 
 void GameScene::Initialize() {
@@ -37,7 +41,16 @@ void GameScene::Initialize() {
 
 	// ビュープロジェクション生成
 	viewProjection_.Initialize();
-	viewProjection_.farZ = 500;
+	viewProjection_.farZ = 600;//これを５００とかにすると後ろの方ででっかい弾が出る。
+
+	mapChipField_ = new MapChipField;
+	mapChipField_->LoadMapChipCsv("Resource/blocks.csv");
+
+
+
+
+
+
 
 	// 3Dモデルデータの生成
 	model_ = Model::Create();

@@ -11,6 +11,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include <vector>
+#include <MapChipField.h>
 
 /// <summary>
 /// ゲームシーン
@@ -22,6 +23,7 @@ public: // メンバ関数
 	/// コンストクラタ
 	/// </summary>
 	GameScene();
+
 
 	/// <summary>
 	/// デストラクタ
@@ -47,6 +49,11 @@ private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
+
+	// マップチップフィールド
+	MapChipField* mapChipField_;
+
+
 
 	// ビュープロジェクション生成
 	ViewProjection viewProjection_;
@@ -79,6 +86,9 @@ private: // メンバ変数
 
 	// デバッグカメラの生成
 	DebugCamera* debugCamera_ = nullptr;
+
+
+
 
 	/// <summary>
 	/// ゲームシーン用
