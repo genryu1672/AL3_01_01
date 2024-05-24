@@ -25,6 +25,10 @@ public: // メンバ関数
 	GameScene();
 
 
+
+
+
+
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
@@ -44,6 +48,14 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw();
+
+	void GenerateBlocks();
+
+	
+
+
+
+
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;

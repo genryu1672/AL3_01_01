@@ -14,6 +14,11 @@ void Player::Initialize(Model* model, ViewProjection* viewProjection) {
 
 	// ワールド変換の初期化
 	worldTransform_.Initialize();
+	
+
+	worldTransform_.translation_.x = 7;
+	worldTransform_.translation_.y = 7;
+
 }
 
 /// <summary>

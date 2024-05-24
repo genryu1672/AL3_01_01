@@ -28,5 +28,9 @@ public: //関数
 
 	MapChipType GetMapchipTypeByIndex(uint32_t xIndex, uint32_t yIndex);
 
-	Vector3 GetmapChipPositionIndex(uint32_t xIndex, uint32_t yIndex);
+	Vector3 GetMapChipPositionByIndex(uint32_t xIndex, uint32_t yIndex);
+
+	uint32_t GetNumBlockVirtical() { return kNumBlockVirtical; }
+	uint32_t GetNumBlockHorizontal() { return kNumBlockHorizontal;}
+
 };
