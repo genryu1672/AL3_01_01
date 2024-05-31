@@ -2,6 +2,7 @@
 #include <cassert>
 #include<numbers>
 #include <Input.h>
+#include"MathUtilityFortext.h"
 /// <summary>
 /// 初期化
 /// </summary>
