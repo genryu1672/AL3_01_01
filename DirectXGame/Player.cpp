@@ -18,8 +18,8 @@ void Player::Initialize(Model* model, ViewProjection* viewProjection,const Vecto
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = position;//初期配置
 
-	worldTransform_.translation_.x = 7;
-	worldTransform_.translation_.y = 7;
+	worldTransform_.translation_.x = 1;
+	worldTransform_.translation_.y = 1;
 
 	//初期回転
 	worldTransform_.rotation_.y = std::numbers::pi_v<float> / 2.0f;
@@ -43,7 +43,7 @@ void Player::Update() {
 		{
 			acceleration.x += kAcceleration;
 		}
-		else if (Input::GetInstance()->PushKey(DIK_LEFT) {
+		else if (Input::GetInstance()->PushKey(DIK_LEFT)) {
 			acceleration.x-=kAcceleration;
 		}
 		//加速/減速

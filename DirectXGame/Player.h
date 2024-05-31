@@ -36,7 +36,7 @@ private://関数（メンバ変数）
 	Vector3 velocity_ = {};
 	
 	//慣性移動
-	static inline const float kAcceleration=7;
+	static inline const float kAcceleration=1;
 
 	ViewProjection* viewProjection_ = nullptr;
 };
