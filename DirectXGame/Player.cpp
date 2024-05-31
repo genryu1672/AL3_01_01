@@ -48,6 +48,9 @@ void Player::Update() {
 		}
 		//加速/減速
 		velocity_+=acceleration;	
+	} else {
+		// 非入力時は移動減衰をかける（kAccelerationは速度減衰率）
+		velocity_.x *= (1.0f - kAttenuation);
 	}
 
 
