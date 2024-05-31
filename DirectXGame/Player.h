@@ -7,13 +7,13 @@
 /// </summary>
 class Player {
 
-public:
+public://引数を書くところ
 	/// <summary>
 	/// 初期化
 	/// </summary>
 	/// <param name="model">モデル</param>
 	/// <param name="textureHandle">テクスチャハンドル</param>
-	void Initialize(Model* model, ViewProjection* viewProjection);
+	void Initialize(Model* model, ViewProjection* viewProjection,const Vector3&position);//void Initialize(Model* model, ViewProjection* viewProjection);
 
 	/// <summary>
 	/// 更新処理
@@ -25,13 +25,18 @@ public:
 	/// </summary>
 	void Draw();
 
-private:
+private://関数（メンバ変数）
 	// ワールド変換データ
 	WorldTransform worldTransform_;
 
 	// モデル
 	Model* model_ = nullptr;
+	
+	//速度
+	Vector3 velocity_ = {};
+	
+	//慣性移動
+	static inline const float kAcceleration=7;
 
-	//
 	ViewProjection* viewProjection_ = nullptr;
 };

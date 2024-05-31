@@ -67,8 +67,13 @@ void GameScene::Initialize() {
 
 	// プレイヤーの生成
 	player_ = new Player();
+	
+	// 座標をマップチップ番号で指定
+	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(7, 7);
+	
 	// プレイヤーの初期化
-	player_->Initialize(modelPlayer_, &viewProjection_);
+	player_->Initialize(modelPlayer_, &viewProjection_,playerPosition);//元player_->Initialize(modelPlayer_, &viewProjection_);
+	
 
 	// 天球の生成
 	skydome_ = new Skydome();
