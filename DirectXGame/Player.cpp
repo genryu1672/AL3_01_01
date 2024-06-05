@@ -3,6 +3,7 @@
 #include<numbers>
 #include <Input.h>
 #include"MathUtilityFortext.h"
+#include<algorithm>
 /// <summary>
 /// 初期化
 /// </summary>
@@ -41,9 +42,23 @@ void Player::Update() {
 		Vector3 acceleration = {};
 		if (Input::GetInstance()->PushKey(DIK_RIGHT))
 		{
-			acceleration.x += kAcceleration;
+			//左移動中の右入力
+			if (velocity_.x < 0.0f)
+			{
+				//速度と逆方向に入力中は急ブレーキ
+				velocity_.x *= (1.0f - kAcceleration);	
+			}
+			acceleration.x += kAcceleration;	
 		}
 		else if (Input::GetInstance()->PushKey(DIK_LEFT)) {
+			
+			//右移動中の左入力
+			if (velocity_.x > 0.0f)
+			{
+				// 速度と逆方向に入力中は急ブレーキ
+				velocity_.x *= (1.0f - kAcceleration);
+			}
+
 			acceleration.x-=kAcceleration;
 		}
 		//加速/減速
@@ -53,8 +68,13 @@ void Player::Update() {
 		velocity_.x *= (1.0f - kAttenuation);
 	}
 
+	
 
 
+
+
+	//最大速度制限
+	velocity_.x = std::clamp(velocity_.x, -kLimitRunSpeed, kLimitRunSpeed);
 
 
 

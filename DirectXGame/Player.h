@@ -41,5 +41,8 @@ private://関数（メンバ変数）
 	//速度減衰
 	static inline const float kAttenuation = 0.5;
 
+	//最大速度制限
+	static inline const float kLimitRunSpeed=1;
+
 	ViewProjection* viewProjection_ = nullptr;
 };
