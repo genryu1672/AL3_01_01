@@ -44,6 +44,16 @@ private://関数（メンバ変数）
 	//速度
 	Vector3 velocity_ = {};
 	
+	// 角度補間
+
+	// 旋回開始時の角度
+	float turnFirstRotationY_ = 0.0f;
+
+	// 旋回タイマー
+	float turnTimer_ = 0.0f;
+
+
+
 	//慣性移動
 	static inline const float kAcceleration=0.01f;
 	
@@ -55,6 +65,8 @@ private://関数（メンバ変数）
 
 	LRDirection lrDirection_ = LRDirection::kRight;
 
+	//旋回時間＜秒＞
+	static inline const float kTimeTurn = 0.3f;
 
 	ViewProjection* viewProjection_ = nullptr;
 };

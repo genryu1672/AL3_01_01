@@ -52,6 +52,13 @@ void Player::Update() {
 					// 左右状態切り替え
 			if (lrDirection_ != LRDirection::kRight) {
 				lrDirection_ = LRDirection::kRight;
+
+				 // 旋回開始時の角度を記録する
+				turnFirstRotationY_ = worldTransform_.rotation_.y;
+				// 旋回タイマーに時間を設定する
+				turnTimer_ = kTimeTurn;
+
+
 			}
 
 		}
@@ -66,6 +73,13 @@ void Player::Update() {
 			if (lrDirection_ != LRDirection::kLeft)
 			{
 				lrDirection_ = LRDirection::kLeft;
+
+				 // 旋回開始時の角度を記録する
+				turnFirstRotationY_ = worldTransform_.rotation_.y;
+				// 旋回タイマーに時間を設定する
+				turnTimer_ = kTimeTurn;
+
+
 			}
 
 			acceleration.x-=kAcceleration;
@@ -79,15 +93,23 @@ void Player::Update() {
 
 	//旋回制御
 	//左右の自キャラ角度テーブル(左右の向き状態に合わせて、適切な角度に回転する処理
-	float destinationRotationYTable[] = {
-	    std::numbers::pi_v<float> / 2.0f,
-	    std::numbers::pi_v<float> * 3.0f / 2.0f,
-	};
-	//状態に応じた角度を取得する
-	float destinationRotationY = destinationRotationYTable[static_cast<uint32_t>(lrDirection_)];
+	if (turnTimer_ > 0.0f) {
+		
+		turnTimer_ -= 1 / 60.0f;
+	
+		float destinationRotationYTable[] = {
+		    std::numbers::pi_v<float> / 2.0f,
+		    std::numbers::pi_v<float> * 3.0f / 2.0f,
+		};
+		// 状態に応じた角度を取得する
+		float destinationRotationY = destinationRotationYTable[static_cast<uint32_t>(lrDirection_)];
 
-	//自キャラの角度を設定する
-	worldTransform_.rotation_.y = destinationRotationY;
+		// 自キャラの角度を設定する
+		worldTransform_.rotation_.y = EaseInOut(destinationRotationY,turnFirstRotationY_,turnTimer_/kTimeTurn	); 
+
+
+	}
+	
 	
 	//最大速度制限
 	velocity_.x = std::clamp(velocity_.x, -kLimitRunSpeed, kLimitRunSpeed);
