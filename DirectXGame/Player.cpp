@@ -49,11 +49,11 @@ void Player::Update() {
 				velocity_.x *= (1.0f - kAcceleration);	
 			}
 			acceleration.x += kAcceleration;	
-		}
-		//左右状態切り替え
-		if (lrDirection_ != LRDirection::kRight)
-		{
-			lrDirection_ = LRDirection::kRight;
+					// 左右状態切り替え
+			if (lrDirection_ != LRDirection::kRight) {
+				lrDirection_ = LRDirection::kRight;
+			}
+
 		}
 		else if (Input::GetInstance()->PushKey(DIK_LEFT)) {
 			

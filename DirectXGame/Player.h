@@ -45,10 +45,10 @@ private://関数（メンバ変数）
 	Vector3 velocity_ = {};
 	
 	//慣性移動
-	static inline const float kAcceleration=0.5;
+	static inline const float kAcceleration=0.01f;
 	
 	//速度減衰
-	static inline const float kAttenuation = 0.5;
+	static inline const float kAttenuation = 0.01f;
 
 	//最大速度制限
 	static inline const float kLimitRunSpeed=1;
