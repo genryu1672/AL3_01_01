@@ -15,6 +15,15 @@ public://引数を書くところ
 	/// <param name="textureHandle">テクスチャハンドル</param>
 	void Initialize(Model* model, ViewProjection* viewProjection,const Vector3&position);//void Initialize(Model* model, ViewProjection* viewProjection);
 
+	//左右
+	enum class LRDirection {
+		kRight,
+		kLeft,
+	};
+
+
+
+
 	/// <summary>
 	/// 更新処理
 	/// </summary>
@@ -43,6 +52,9 @@ private://関数（メンバ変数）
 
 	//最大速度制限
 	static inline const float kLimitRunSpeed=1;
+
+	LRDirection lrDirection_ = LRDirection::kRight;
+
 
 	ViewProjection* viewProjection_ = nullptr;
 };
