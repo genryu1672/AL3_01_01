@@ -52,6 +52,8 @@ private://関数（メンバ変数）
 	// 旋回タイマー
 	float turnTimer_ = 0.0f;
 
+	//接地状態フラグ
+	bool onGround_ = true;
 
 
 	//慣性移動
@@ -67,6 +69,15 @@ private://関数（メンバ変数）
 
 	//旋回時間＜秒＞
 	static inline const float kTimeTurn = 0.3f;
+
+	//重力加速度（下方向）
+	static inline const float kGravityAcceleration = 0.05f;
+
+	//最大落下速度（下方向）
+	static inline const float kLimitFallSpeed = 0.5f;
+
+	//ジャンプ初速（上方向）
+	static inline const float kJumpAcceleration = 0.5f;
 
 	ViewProjection* viewProjection_ = nullptr;
 };
