@@ -12,7 +12,7 @@
 #include "WorldTransform.h"
 #include <vector>
 #include "MapChipField.h"
-
+#include "CameraController.h"
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -99,7 +99,8 @@ private: // メンバ変数（関数）
 	// デバッグカメラの生成
 	DebugCamera* debugCamera_ = nullptr;
 
-
+	//カメラコントローラー
+	CameraController* cameraController_;
 
 
 	/// <summary>
