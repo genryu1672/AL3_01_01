@@ -1,6 +1,6 @@
 #pragma once
 #include "ViewProjection.h"
-
+#include"MathUtilityForText.h"
 //前方宣言
 class Player;
 

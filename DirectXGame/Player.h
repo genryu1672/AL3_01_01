@@ -15,6 +15,12 @@ public://引数を書くところ
 	/// <param name="textureHandle">テクスチャハンドル</param>
 	void Initialize(Model* model, ViewProjection* viewProjection,const Vector3&position);//void Initialize(Model* model, ViewProjection* viewProjection);
 
+	
+	//対応するGetterを作成
+	const WorldTransform& GetWorldTransform() const { return worldTransform_; }
+
+
+
 	//左右
 	enum class LRDirection {
 		kRight,
