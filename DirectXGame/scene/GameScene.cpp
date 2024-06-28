@@ -52,13 +52,7 @@ void GameScene::Initialize() {
 	//表示ブロックの生成
 	GenerateBlocks();
 
-	//カメラコントローラーの初期化
-	cameraController_ = new CameraController;
-	cameraController_->Initialize();
-	cameraController_->SetTarget(player_);
-
-	//更新
-	cameraController_->Reset();
+	
 
 	// 3Dモデルデータの生成
 	model_ = Model::Create();
@@ -81,6 +75,18 @@ void GameScene::Initialize() {
 	// プレイヤーの初期化
 	player_->Initialize(modelPlayer_, &viewProjection_,playerPosition);//元player_->Initialize(modelPlayer_, &viewProjection_);
 	
+	// カメラコントローラーの初期化
+	cameraController_ = new CameraController;
+	cameraController_->Initialize();
+	cameraController_->SetTarget(player_);
+
+	// 更新
+	cameraController_->Reset();
+
+
+
+
+
 
 	// 天球の生成
 	skydome_ = new Skydome();
@@ -180,7 +186,7 @@ void GameScene::Update() {
 		viewProjection_.matView = cameraController_->GetViewProjection().matView;
 		viewProjection_.matProjection = cameraController_->GetViewProjection().matProjection;
 		// ビュープロジェクション行列の更新と転送
-		viewProjection_.UpdateMatrix();
+		viewProjection_.TransferMatrix();
 	}
 }
 
