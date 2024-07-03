@@ -83,11 +83,6 @@ void GameScene::Initialize() {
 	// 更新
 	cameraController_->Reset();
 
-
-
-
-
-
 	// 天球の生成
 	skydome_ = new Skydome();
 	// 天球の初期化
@@ -127,6 +122,9 @@ void GameScene::Initialize() {
 
 	// デバッグカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
+	
+	Rect cameraArea = {12.0f, 100 - 12.0f, 6.0f, 6.0f};
+	cameraController_->SetMovableArea(cameraArea);
 }
 
 void GameScene::Update() {
