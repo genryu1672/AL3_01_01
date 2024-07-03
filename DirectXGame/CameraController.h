@@ -37,6 +37,12 @@ public:
 
 	void SetMovableArea(Rect area) { movableArea_ = area; }
 
+	// 座標補間割合
+	static inline const float kInterpolationRate = 0.1f;
+
+	// 速度掛け率
+	static inline const float kVelocityBias = 23.0f;
+
 private:
 	// ビュープロジェクション
 	ViewProjection viewProjection_;
@@ -52,8 +58,6 @@ private:
 	//カメラの目標座標
 	Vector3 targetCoordinates;
 
-	//座標補間割合
-	static inline const float kInterpolationRate = 0.1f;
-
+	
 
 };

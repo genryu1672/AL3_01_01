@@ -9,10 +9,14 @@ void CameraController::Initialize() {
 }
 
 void CameraController::Update() {
+	
+	const Vector3& targetVelocity = target_->GetVelocity();
 	//追従対象のワールドトランスフォームを参照
 	const WorldTransform& targetWorldTransform = target_->GetWorldTransform();
-	//追従対象とオフセットからカメラの座標計算
-	viewProjection_.translation_ = targetWorldTransform.translation_ + targetoffset_;
+	//追従対象とオフセットと追従速度からのカメラの座標計算
+	targetCoordinates = targetWorldTransform.translation_ + targetoffset_ + targetVelocity * kVelocityBias;
+	// 座標補間によりゆったり追従
+	viewProjection_.translation_ = Lerp(viewProjection_.translation_, targetCoordinates, kInterpolationRate);
 	
 	//移動範囲制限
 	viewProjection_.translation_.x = std::max(viewProjection_.translation_.x, movableArea_.left);
@@ -27,17 +31,8 @@ void CameraController::Update() {
 //追従対象のワールドトランスフォームを参照
 void CameraController::Reset() {
 	const WorldTransform& targetWorldTransform = target_->GetWorldTransform();
+
 	// 追従対象とオフセットからカメラの座標を計算
-	//viewProjection_.translation_ = targetWorldTransform.translation_ + targetoffset_;
-	
-	// 追従対象とオフセットからカメラの目標座標を計算
-	targetCoordinates = targetWorldTransform.translation_ + targetoffset_;
-
-	//座標補間によりゆったり追従
-	viewProjection_.translation_ = Lerp(viewProjection_.translation_, targetCoordinates, kInterpolationRate);
-
-	//移動範囲制限
-
-	//行列を更新する
+	viewProjection_.translation_ = targetWorldTransform.translation_ + targetoffset_;
 
 }

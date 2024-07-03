@@ -19,6 +19,8 @@ public://引数を書くところ
 	//対応するGetterを作成
 	const WorldTransform& GetWorldTransform() const { return worldTransform_; }
 
+	//速度加算
+	const Vector3& GetVelocity() const { return velocity_; }
 
 
 	//左右
