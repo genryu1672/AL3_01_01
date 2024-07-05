@@ -1,6 +1,8 @@
 #pragma once
 #include "Model.h"
 #include "WorldTransform.h"
+// 前方宣言
+class MapchipFiled;
 
 /// <summary>
 ///	自キャラ
