@@ -2,7 +2,7 @@
 #include "Model.h"
 #include "WorldTransform.h"
 // 前方宣言
-class MapchipFiled;
+class MapChipField;
 
 /// <summary>
 ///	自キャラ
@@ -31,7 +31,7 @@ public://引数を書くところ
 		kLeft,
 	};
 
-
+	void SetMapChipField(MapChipField* mapChipField) {  mapChipField_; }
 
 
 	/// <summary>
@@ -45,6 +45,11 @@ public://引数を書くところ
 	void Draw();
 
 private://関数（メンバ変数）
+	
+	//マップチップによるフィールド
+	MapChipField* mapChipField_ = nullptr;
+
+
 	// ワールド変換データ
 	WorldTransform worldTransform_;
 
