@@ -10,16 +10,13 @@ struct MapChipData {
 	std::vector<std::vector<MapChipType>> data;
 };
 
-class MapChipField {
-private: //変数
-	// ブロックのサイズ
-	static inline const float kBlockWidth = 1.0f;
-	static inline const float kBlockHeight = 1.0f;
-	// ブロックの個数
-	static inline const uint32_t kNumBlockVirtical = 20;
-	static inline const uint32_t kNumBlockHorizontal = 100;
 
-	MapChipData mapChipData_;
+
+
+
+class MapChipField {
+
+	
 
 public: //関数
 	void ResetMapChipData();
@@ -32,5 +29,22 @@ public: //関数
 
 	uint32_t GetNumBlockVirtical() { return kNumBlockVirtical; }
 	uint32_t GetNumBlockHorizontal() { return kNumBlockHorizontal;}
+
+	struct IndexSet {
+		uint32_t xIndex;
+		uint32_t yIndex;
+	};
+
+	IndexSet GetMapChipIndexSetByPosition(const Vector3& position);
+
+	private: // 変数
+	// ブロックのサイズ
+	static inline const float kBlockWidth = 1.0f;
+	static inline const float kBlockHeight = 1.0f;
+	// ブロックの個数
+	static inline const uint32_t kNumBlockVirtical = 20;
+	static inline const uint32_t kNumBlockHorizontal = 100;
+
+	MapChipData mapChipData_;
 
 };

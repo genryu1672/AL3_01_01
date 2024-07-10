@@ -31,8 +31,11 @@ public://引数を書くところ
 		kLeft,
 	};
 
-	//void SetMapChipField(MapChipField* mapChipField) {  mapChipField_; }
+	void SetMapChipField(MapChipField* mapChipField) {  mapChipField_; }
 
+	//キャラクターの当たり判定サイズ
+	static inline const float kWidth = 0.8f;
+	static inline const float kHeight = 0.0f;
 
 	/// <summary>
 	/// 更新処理
@@ -43,6 +46,39 @@ public://引数を書くところ
 	/// 描画処理
 	/// </summary>
 	void Draw();
+
+	//移動入力
+	void InputMove();
+
+	//マップとの当たり判定情報
+	struct CollisionMapInfo
+	{
+		bool ceiling = false;
+		bool landing = false;
+		bool hitWall = false;
+		Vector3 move;
+	};
+
+	void CheckMapCollision(CollisionMapInfo& info);
+	
+	void CheckMapCollisionUp(CollisionMapInfo& info);
+	void CheckMapCollisionDown(CollisionMapInfo& info);
+	void CheckMapCollisionLeft(CollisionMapInfo& info);
+	void CheckMapCollisionRight(CollisionMapInfo& info);
+
+	//角
+	enum Corner
+	{
+		kRightBottom,//右下
+		kLeftBottom,//左下
+		kRightTop,//右上
+		kLeftTop,//左上
+
+		kNumCorner//要素数
+	};
+
+	Vector3 CornerPosition(const Vector3& center, Corner corner);
+
 
 private://関数（メンバ変数）
 	
