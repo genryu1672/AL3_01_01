@@ -31,7 +31,7 @@ public://引数を書くところ
 		kLeft,
 	};
 
-	void SetMapChipField(MapChipField* mapChipField) {  mapChipField_; }
+	//void SetMapChipField(MapChipField* mapChipField) {  mapChipField_; }
 
 
 	/// <summary>
