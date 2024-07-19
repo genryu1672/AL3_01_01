@@ -57,7 +57,15 @@ void Player::Update() {
 	AnimateTurn();
 
 	// 行列を更新して定数バッファに転送
+	//worldTransform_.UpdateMatrix();
+
+	// 移動
+	worldTransform_.translation_ += collisionMapInfo.move;
+
+	// 行列計算
 	worldTransform_.UpdateMatrix();
+
+
 }
 
 /// <summary>
@@ -163,11 +171,7 @@ void Player::InputMove() {
 	// 最大速度制限
 	velocity_.x = std::clamp(velocity_.x, -kLimitRunSpeed, kLimitRunSpeed);
 
-	// 移動
-	worldTransform_.translation_ += velocity_;
-
-	// 行列計算
-	worldTransform_.UpdateMatrix();
+	
 }
 
 void Player::AnimateTurn() {
@@ -284,7 +288,7 @@ void Player::CheckMapCollisionUp(CollisionMapInfo& info) {
 		MapChipField::Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex, indexSet.yIndex);
 		info.move.y = std::max(0.0f, rect.bottom - worldTransform_.translation_.y - (kHeight / 2.0f + kBlank));
 		// 天井に当たったことを記録する
-		info.ceiling = true;
+		info.landing = true;
 	}
  
  }
@@ -300,11 +304,11 @@ void Player::CheckMapCollisionUp(CollisionMapInfo& info) {
 		 //落下判定
 
 			std::array<Vector3, kNumCorner> positionsNew;
-
+			
 			for (uint32_t i = 0; i < positionsNew.size(); ++i) {
 				positionsNew[i] = CornerPosition(worldTransform_.translation_ + info.move, static_cast<Corner>(i));
 			}
-		 
+		 	
 			MapChipType mapChipType;
 			// 真下の当たり判定を行う
 			bool hit = false;
@@ -322,7 +326,7 @@ void Player::CheckMapCollisionUp(CollisionMapInfo& info) {
 			if (mapChipType == MapChipType::kBlock) {
 				hit = true;
 			}
-
+			
 			// 落下なら空中状態に切り替え
 			//落下開始
 			if (!hit)
