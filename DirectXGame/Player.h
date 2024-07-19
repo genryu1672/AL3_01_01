@@ -69,6 +69,10 @@ public://引数を書くところ
 	void CheckMapCollisionLeft(CollisionMapInfo& info);
 	void CheckMapCollisionRight(CollisionMapInfo& info);
 
+	//接地状態の切り替え
+	void cellingSwitch(const CollisionMapInfo& info);
+
+
 	//角
 	enum Corner
 	{
@@ -121,7 +125,7 @@ private://関数（メンバ変数）
 	static inline const float kAttenuation = 0.01f;
 
 	//最大速度制限
-	static inline const float kLimitRunSpeed=1;
+	static inline const float kLimitRunSpeed=0.1f;
 
 	LRDirection lrDirection_ = LRDirection::kRight;
 
@@ -139,6 +143,13 @@ private://関数（メンバ変数）
 
 	static inline const float kBlank = 5;
 	
+	//着地時の速度減衰率
+	static inline const float kAttennuationLanding = 0.5f;
+
+	static inline const float kAttennuationShift = 0.1f;
+
+
+
 	ViewProjection* viewProjection_ = nullptr;
 
 };
