@@ -74,8 +74,8 @@ public://引数を書くところ
 
 
 	//角
-	enum Corner
-	{
+	enum Corner {
+
 		kRightBottom,//右下
 		kLeftBottom,//左下
 		kRightTop,//右上
