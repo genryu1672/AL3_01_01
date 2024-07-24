@@ -53,6 +53,8 @@ void Player::Update() {
 	//天井に接触している場合の処理
 	CellingContactHit(collisionMapInfo);
 
+	cellingSwitch(collisionMapInfo);
+
 	//旋回制御
 	AnimateTurn();
 
@@ -60,7 +62,7 @@ void Player::Update() {
 	//worldTransform_.UpdateMatrix();
 
 	// 移動
-	worldTransform_.translation_ += collisionMapInfo.move;
+	//worldTransform_.translation_ += collisionMapInfo.move;
 
 	// 行列計算
 	worldTransform_.UpdateMatrix();
@@ -121,6 +123,10 @@ void Player::InputMove() {
 
 			// 加速/減速
 			velocity_ += acceleration;
+
+			// 最大速度制限
+			velocity_.x = std::clamp(velocity_.x, -kLimitRunSpeed, kLimitRunSpeed);
+
 		} else {
 			// 非入力時は移動減衰をかける（kAccelerationは速度減衰率）
 			velocity_.x *= (1.0f - kAttenuation);
@@ -149,13 +155,13 @@ void Player::InputMove() {
 
 	// 地面との当たり判定
 	// 降下中？
-	if (velocity_.y < 0) {
-		// Y座標が地面以下になったら着地
-		if (worldTransform_.translation_.y <= 1.0f) {
-			landing = true;
-		}
-	}
-	
+	//if (velocity_.y < 0) {
+	//	// Y座標が地面以下になったら着地
+	//	if (worldTransform_.translation_.y <= 1.0f) {
+	//		landing = true;
+	//	}
+	//}
+	//
 	// 着地
 	if (landing) {
 		// めり込み排斥
@@ -168,8 +174,7 @@ void Player::InputMove() {
 		onGround_ = true;
 	}
 
-	// 最大速度制限
-	velocity_.x = std::clamp(velocity_.x, -kLimitRunSpeed, kLimitRunSpeed);
+	
 
 	
 }
