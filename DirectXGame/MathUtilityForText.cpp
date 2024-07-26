@@ -4,39 +4,46 @@
 
 
 //アフィン変換行列の作成
-//Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rot, const Vector3& translate)
-//{
-//	Vector3 dm;
-//	dm = scale;
-//	dm = rot;
-//	
-//	// 平行移動
-//	/*Matrix4x4 result{1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, translate.x, translate.y, translate.z,
-//                 1.0f};*/
-//
-//	//回転
-//	Matrix4x4 RotateMatY = 
-//	{ 
-//		cosf(rot.y),0,-sinf(rot.y),0,0,1,0,0,
-//	  sinf(rot.y),0,cosf(rot.y),0,0,0,0,1
-//	};
-//
-//	//平行移動行列の作成
-//	Matrix4x4 TranslatMat = {
-//		1,0,0,0,
-//		0,1,0,0,
-//		0,0,1,0,
-//		translate.x,translate.y,translate.z,1
-//	};
-//
-//	// 回転＊平行移動だけをワールド変換行列に
-//	Matrix4x4 ansMat = MatrixMultiply(RotateMatY, TranslatMat);
-//
-//
-//	return ansMat;
-//
-//	//return result;
-//}
+Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rot, const Vector3& translate)
+{
+	Vector3 dm;
+	dm = scale;
+	dm = rot;
+	
+	// 平行移動
+	/*Matrix4x4 result{1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, translate.x, translate.y, translate.z,
+                 1.0f};*/
+
+	//回転
+	Matrix4x4 RotateMatY = 
+	{ 
+		cosf(rot.y),0,-sinf(rot.y),0,0,1,0,0,
+	  sinf(rot.y),0,cosf(rot.y),0,0,0,0,1
+	};
+
+	//平行移動行列の作成
+	Matrix4x4 TranslatMat = {
+		1,0,0,0,
+		0,1,0,0,
+		0,0,1,0,
+		translate.x,translate.y,translate.z,1
+	};
+
+	// X回転
+	Matrix4x4 RotateMatX = {1, 0, 0, 0, 0, cosf(rot.x), sinf(rot.x), 0, 0, -sinf(rot.x), cosf(rot.x), 0, 0, 0, 0, 1};
+
+	// X軸回転＊Y軸回転で回転行列を合成
+	Matrix4x4 RotateMatAll = MatrixMultiply(RotateMatX, RotateMatY);
+	
+	
+	// 回転＊平行移動だけをワールド変換行列に
+	Matrix4x4 ansMat = MatrixMultiply(RotateMatY, TranslatMat);
+
+
+	return ansMat;
+
+	//return result;
+}
 
 //Vector3の足し算
 Vector3& operator+=(Vector3& lhv, const Vector3& rhv) { 
@@ -267,5 +274,10 @@ Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Ve
 
 	return ret;
 }
+
+
+
+
+
 
 
