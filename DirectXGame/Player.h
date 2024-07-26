@@ -33,9 +33,9 @@ public://引数を書くところ
 
 	void SetMapChipField(MapChipField* mapChipField) {mapChipField_=  mapChipField; }
 
-	//キャラクターの当たり判定サイズ
+	//キャラクターの当たり判定サイズ(0.0fとかにするとキャラクターが埋まったりする)
 	static inline const float kWidth = 0.8f;
-	static inline const float kHeight = 0.0f;
+	static inline const float kHeight = 0.8f;
 
 	/// <summary>
 	/// 更新処理
