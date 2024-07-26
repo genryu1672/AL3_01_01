@@ -29,7 +29,7 @@ class Enemy {
 	WorldTransform worldTransform_;
 
 	 // 敵モデル
-	Enemy* enemy_ = nullptr;
+	Model* model_ = nullptr;
 
 	//ビュープロジェクションのポインタ
 	ViewProjection* viewProjection_ = nullptr;
