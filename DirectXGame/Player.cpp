@@ -37,8 +37,8 @@ void Player::Update() {
 	// 移動入力
 	InputMove();
 
-	//②マップ衝突チェック
-	// 衝突情報を初期化
+	// ②マップ衝突チェック
+	//  衝突情報を初期化
 	CollisionMapInfo collisionMapInfo;
 
 	// 移動量に速度の値をコピー
@@ -50,24 +50,22 @@ void Player::Update() {
 	// 判定結果を反映して移動させる
 	CheckMapCollisionHit(collisionMapInfo);
 
-	//天井に接触している場合の処理
+	// 天井に接触している場合の処理
 	CellingContactHit(collisionMapInfo);
 
 	cellingSwitch(collisionMapInfo);
 
-	//旋回制御
+	// 旋回制御
 	AnimateTurn();
 
 	// 行列を更新して定数バッファに転送
-	//worldTransform_.UpdateMatrix();
+	// worldTransform_.UpdateMatrix();
 
 	// 移動
-	//worldTransform_.translation_ += collisionMapInfo.move;
+	// worldTransform_.translation_ += collisionMapInfo.move;
 
 	// 行列計算
 	worldTransform_.UpdateMatrix();
-
-
 }
 
 /// <summary>
@@ -155,7 +153,7 @@ void Player::InputMove() {
 
 	// 地面との当たり判定
 	// 降下中？
-	//if (velocity_.y < 0) {
+	// if (velocity_.y < 0) {
 	//	// Y座標が地面以下になったら着地
 	//	if (worldTransform_.translation_.y <= 1.0f) {
 	//		landing = true;
@@ -173,10 +171,6 @@ void Player::InputMove() {
 		// 接地状態
 		onGround_ = true;
 	}
-
-	
-
-	
 }
 
 void Player::AnimateTurn() {
@@ -199,18 +193,13 @@ void Player::AnimateTurn() {
 	}
 }
 
-//呼び出し
-void Player::CheckMapCollision(CollisionMapInfo& info) { 
-	CheckMapCollisionUp(info); 
+// 呼び出し
+void Player::CheckMapCollision(CollisionMapInfo& info) {
+	CheckMapCollisionUp(info);
 	CheckMapCollisionDown(info);
 	CheckMapCollisionRight(info);
 	CheckMapCollisionLeft(info);
 }
-
-
-
-
-
 
 void Player::CheckMapCollisionUp(CollisionMapInfo& info) {
 
@@ -249,15 +238,15 @@ void Player::CheckMapCollisionUp(CollisionMapInfo& info) {
 		indexSet = mapChipField_->GetMapChipIndexSetByPosition(worldTransform_.translation_ + Vector3(0, +kHeight / 2.0f, 0));
 		// めり込み先ブロックの範囲短形
 		MapChipField::Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex, indexSet.yIndex);
-		info.move.y = std::max(0.0f, rect.bottom - worldTransform_.translation_.y - (kHeight/ 2.0f + kBlank));
+		info.move.y = std::max(0.0f, rect.bottom - worldTransform_.translation_.y - (kHeight / 2.0f + kBlank));
 		// 天井に当たったことを記録する
 		info.ceiling = true;
 	}
 }
 
- void Player::CheckMapCollisionDown(CollisionMapInfo& info) {
- 
- // 下降あり？
+void Player::CheckMapCollisionDown(CollisionMapInfo& info) {
+
+	// 下降あり？
 	if (info.move.y >= 0) {
 		return;
 	}
@@ -296,13 +285,12 @@ void Player::CheckMapCollisionUp(CollisionMapInfo& info) {
 		// 天井に当たったことを記録する
 		info.landing = true;
 	}
- 
- }
- 
- //右の当たり判定
- void Player::CheckMapCollisionRight(CollisionMapInfo& info) {
- 
-	 // 右あり？
+}
+
+// 右の当たり判定
+void Player::CheckMapCollisionRight(CollisionMapInfo& info) {
+
+	// 右あり？
 	if (info.move.x <= 0) {
 		return;
 	}
@@ -334,21 +322,19 @@ void Player::CheckMapCollisionUp(CollisionMapInfo& info) {
 	// ブロックにヒット？
 	if (hit) {
 		// めり込みを排除する方向に移動量を設定する
-		indexSet = mapChipField_->GetMapChipIndexSetByPosition(worldTransform_.translation_ + Vector3( +kWidth / 2.0f, 0,0));
+		indexSet = mapChipField_->GetMapChipIndexSetByPosition(worldTransform_.translation_ + Vector3(+kWidth / 2.0f, 0, 0));
 		// めり込み先ブロックの範囲短形
 		MapChipField::Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex, indexSet.yIndex);
 		info.move.x = std::max(0.0f, rect.right - worldTransform_.translation_.x - (kWidth / 2.0f + kBlank));
 		// 天井に当たったことを記録する
 		info.ceiling = true;
 	}
+}
 
- }
- 
+// 左の当たり判定
+void Player::CheckMapCollisionLeft(CollisionMapInfo& info) {
 
-  // 左の当たり判定
- void Player::CheckMapCollisionLeft(CollisionMapInfo& info) {
- 
-  // 左あり？
+	// 左あり？
 	if (info.move.x >= 0) {
 		return;
 	}
@@ -369,8 +355,8 @@ void Player::CheckMapCollisionUp(CollisionMapInfo& info) {
 	if (mapChipType == MapChipType::kBlock) {
 		hit = true;
 	}
-	//左下点の判定
-	// MapChipField::IndexSet indexSet;
+	// 左下点の判定
+	//  MapChipField::IndexSet indexSet;
 	indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionsNew[kLeftBottom]);
 	mapChipType = mapChipField_->GetMapchipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
 	if (mapChipType == MapChipType::kBlock) {
@@ -387,35 +373,30 @@ void Player::CheckMapCollisionUp(CollisionMapInfo& info) {
 		// 天井に当たったことを記録する
 		info.ceiling = true;
 	}
- 
- }
- 
- 
- 
- 
- void Player::cellingSwitch(const CollisionMapInfo& info) {
- 
-	 if (onGround_) {
-		//接地状態の処理
-		 //ジャンプ開始
-		 if (velocity_.y > 0.0f)
-		 {
+}
+
+void Player::cellingSwitch(const CollisionMapInfo& info) {
+
+	if (onGround_) {
+		// 接地状態の処理
+		// ジャンプ開始
+		if (velocity_.y > 0.0f) {
 			onGround_ = false;
-		 } else {
-		 //落下判定
+		} else {
+			// 落下判定
 
 			std::array<Vector3, kNumCorner> positionsNew;
-			
+
 			for (uint32_t i = 0; i < positionsNew.size(); ++i) {
 				positionsNew[i] = CornerPosition(worldTransform_.translation_ + info.move, static_cast<Corner>(i));
 			}
-		 	
+
 			MapChipType mapChipType;
 			// 真下の当たり判定を行う
 			bool hit = false;
 			// 左下点の判定
 			MapChipField::IndexSet indexSet;
-			indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionsNew[kLeftBottom] + Vector3(0,-kAttennuationShift,0));
+			indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionsNew[kLeftBottom] + Vector3(0, -kAttennuationShift, 0));
 			mapChipType = mapChipField_->GetMapchipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
 			if (mapChipType == MapChipType::kBlock) {
 				hit = true;
@@ -427,35 +408,28 @@ void Player::CheckMapCollisionUp(CollisionMapInfo& info) {
 			if (mapChipType == MapChipType::kBlock) {
 				hit = true;
 			}
-			
+
 			// 落下なら空中状態に切り替え
-			//落下開始
-			if (!hit)
-			{
-				//空中状態に切り替える
+			// 落下開始
+			if (!hit) {
+				// 空中状態に切り替える
 				onGround_ = false;
 			}
-
-
-		 }
-	 } else {
-		//空中状態の処理
-		 //着地フラグ
-		 if (info.landing)
-		 {
-			 //着地状態に切り替える(落下を止める）
+		}
+	} else {
+		// 空中状態の処理
+		// 着地フラグ
+		if (info.landing) {
+			// 着地状態に切り替える(落下を止める）
 			onGround_ = true;
-			//着地時にX速度を減衰
+			// 着地時にX速度を減衰
 			velocity_.x *= (1.0f - kAttennuationLanding);
-			//Y速度をゼロにする
+			// Y速度をゼロにする
 			velocity_.y = 0.0f;
 		}
-	 }
- 
- 
- 
- }
- //
+	}
+}
+//
 // void Player::CheckMapCollisionLeft(CollisionMapInfo& info) {}
 //
 // void Player::CheckMapCollisionRight(CollisionMapInfo& info) {}
@@ -484,5 +458,3 @@ void Player::CheckMapCollisionHit(const CollisionMapInfo& info) {
 	// 移動
 	worldTransform_.translation_ += info.move;
 }
-
-
