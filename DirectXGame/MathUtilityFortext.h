@@ -3,7 +3,7 @@
 #include<math.h>
 #include"Matrix4x4.h"
 #include"Vector3.h"
-
+#include"AABB.h"
 
 Matrix4x4 Multply(const Matrix4x4& m1, const Matrix4x4& m2);
 Matrix4x4 MakeTranslateMatrix(const Vector3& translate);
@@ -12,7 +12,8 @@ Matrix4x4 MakeRotateXMatrix(float radian);
 Matrix4x4 MakeRotateYMatrix(float radian);
 Matrix4x4 MakeRotateZMatrix(float radian);
 
-
+//自キャラと敵キャラの当たり判定
+bool IsColision(const AABB& aabb1, const AABB& aabb2);
 
 
 Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rot, const Vector3& translate);

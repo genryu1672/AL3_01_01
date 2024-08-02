@@ -67,7 +67,7 @@ private: // メンバ変数（関数）
 	// マップチップフィールド
 	MapChipField* mapChipField_;
 
-
+	
 
 	// ビュープロジェクション生成
 	ViewProjection viewProjection_;
@@ -94,6 +94,11 @@ private: // メンバ変数（関数）
 	Model* modelBlock_ = 0;
 
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
+
+	//敵の複数化
+	std::list<Enemy*> enemies_;
+
+
 
 	// デバッグカメラの有効
 	bool isDebugCameraActive_ = false;

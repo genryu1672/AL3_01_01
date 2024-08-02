@@ -35,7 +35,6 @@ Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rot, const Vecto
 	// X軸回転＊Y軸回転で回転行列を合成
 	Matrix4x4 RotateMatAll = MatrixMultiply(RotateMatX, RotateMatY);
 	
-	
 	// 回転＊平行移動だけをワールド変換行列に
 	Matrix4x4 ansMat = MatrixMultiply(RotateMatAll, TranslatMat);
 
@@ -256,7 +255,13 @@ float Lerp(float x1, float x2, float t) { return (1.0f - t) * x1 + t * x2; }
 Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t) { return Vector3(Lerp(v1.x, v2.x, t), Lerp(v1.y, v2.y, t), Lerp(v1.z, v2.z, t)); }
 
 
+bool IsColision(const AABB& aabb1, const AABB& aabb2)
+{
+	return (aabb1.min.x<=aabb2.max.x&&aabb1.max.x>=aabb2.min.x)&&//X軸
+	       (aabb1.min.x<=aabb2.max.x&&aabb1.max.x>=aabb2.min.x)&&//Y軸
+		   (aabb1.min.x<=aabb2.max.x&&aabb1.max.x>=aabb2.min.x);//Z軸
 
+}
 
 
 

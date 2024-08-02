@@ -90,6 +90,12 @@ public://引数を書くところ
 
 	void CellingContactHit(const CollisionMapInfo& info);
 
+	//ワールド座標を取得
+	Vector3 GetWorldPosition();
+
+	//AABBを取得
+	AABB GetAABB();
+
 
 private://関数（メンバ変数）
 	
