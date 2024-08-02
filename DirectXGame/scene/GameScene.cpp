@@ -21,6 +21,7 @@ GameScene::~GameScene() {
 
 	delete cameraController_;
 
+	delete enemy_;
 
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
@@ -48,6 +49,15 @@ void GameScene::Initialize() {
 
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapchipCsv("Resources/blocks.csv");
+	
+	//敵初期化
+	EnemyModel_ = Model::CreateFromOBJ("enemy", true);
+
+	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(17, 18);
+
+	enemy_ = new Enemy();
+
+	enemy_->Initialize(EnemyModel_, &viewProjection_, enemyPosition);
 
 	//表示ブロックの生成
 	GenerateBlocks();
@@ -140,6 +150,9 @@ void GameScene::Update() {
 	//カメラコントローラーの更新
 	cameraController_->Update();
 
+	//敵の更新
+	enemy_->Update();
+
 	// ブロックの更新
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 
@@ -222,6 +235,10 @@ void GameScene::Draw() {
 
 	// 天球の描画処理
 	skydome_->Draw();
+
+	//敵の描画処理
+	enemy_->Draw();
+
 
 	// ブロックの描画
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {

@@ -37,7 +37,7 @@ Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rot, const Vecto
 	
 	
 	// 回転＊平行移動だけをワールド変換行列に
-	Matrix4x4 ansMat = MatrixMultiply(RotateMatY, TranslatMat);
+	Matrix4x4 ansMat = MatrixMultiply(RotateMatAll, TranslatMat);
 
 
 	return ansMat;
@@ -261,19 +261,19 @@ Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t) { return Vector3(Ler
 
 
 // 3次元アフィン変換行列
-Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
-Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
-	Matrix4x4 rotateXMatrix = MakeRotateXMatrix(rotate.x);
-	Matrix4x4 rotateYMatrix = MakeRotateYMatrix(rotate.y);
-	Matrix4x4 rotateZMatrix = MakeRotateZMatrix(rotate.z);
-	Matrix4x4 rotateXYZMatrix = Multply(rotateXMatrix, Multply(rotateYMatrix, rotateZMatrix));
-	Matrix4x4 scaleMatrix = MakeScaleMatrix(scale);
-	Matrix4x4 translateMatrix = MakeTranslateMatrix(translate);
-
-	Matrix4x4 ret = Multply(scaleMatrix, Multply(rotateXYZMatrix, translateMatrix));
-
-	return ret;
-}
+//Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
+//Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate) {
+//	Matrix4x4 rotateXMatrix = MakeRotateXMatrix(rotate.x);
+//	Matrix4x4 rotateYMatrix = MakeRotateYMatrix(rotate.y);
+//	Matrix4x4 rotateZMatrix = MakeRotateZMatrix(rotate.z);
+//	Matrix4x4 rotateXYZMatrix = Multply(rotateXMatrix, Multply(rotateYMatrix, rotateZMatrix));
+//	Matrix4x4 scaleMatrix = MakeScaleMatrix(scale);
+//	Matrix4x4 translateMatrix = MakeTranslateMatrix(translate);
+//
+//	Matrix4x4 ret = Multply(scaleMatrix, Multply(rotateXYZMatrix, translateMatrix));
+//
+//	return ret;
+//}
 
 
 

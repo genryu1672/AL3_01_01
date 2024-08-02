@@ -13,6 +13,7 @@
 #include <vector>
 #include "MapChipField.h"
 #include "CameraController.h"
+#include"Enemy.h"
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -24,9 +25,10 @@ public: // メンバ関数(引数）
 	/// </summary>
 	GameScene();
 
+	//敵
+	Enemy* enemy_ = nullptr;
 
-
-
+	Model* EnemyModel_ = nullptr;
 
 
 	/// <summary>

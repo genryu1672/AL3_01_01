@@ -25,6 +25,7 @@ class Enemy {
 
 	private:
 
+	//渡して3D描画
 	// ワールド変換データ
 	WorldTransform worldTransform_;
 
@@ -34,6 +35,22 @@ class Enemy {
 	//ビュープロジェクションのポインタ
 	ViewProjection* viewProjection_ = nullptr;
 
+	//歩行の速さ
+	static inline const float kWalkSpeed = 0.01f;
 
+	//速度
+	Vector3 velocity_ = {};
+	
+	//最初の角度[度]
+	static inline const float kWalkMotionAngleStart = 0.01f;
+
+	// 最後の角度[度]
+	static inline const float kWalkMotionAngleEnd = 0.1f;
+	
+	// アニメーションの周期となる時間[秒]
+	static inline const float kWalkMotionTime = 3.0f;
+
+	//経過時間
+	float walkTimer_ = 0.0f;
 
 };
