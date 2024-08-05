@@ -3,6 +3,9 @@
 #include "TextureManager.h"
 #include <cassert>
 #include"CameraController.h"
+//自キャラと敵キャラの当たり判定
+#pragma region
+#pragma endregion
 // コンストラクタ
 GameScene::GameScene() {}
 
@@ -152,6 +155,11 @@ void GameScene::Update() {
 
 	//敵の更新
 	enemy_->Update();
+
+
+	//全ての当たり判定を行う
+	CheckAllCollisions();
+
 
 	// ブロックの更新
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {

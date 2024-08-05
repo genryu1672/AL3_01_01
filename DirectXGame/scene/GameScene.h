@@ -53,8 +53,8 @@ public: // メンバ関数(引数）
 
 	void GenerateBlocks();
 
-	
-
+	//全ての当たり判定を行う
+	void CheckAllCollisions();
 
 
 
