@@ -468,7 +468,19 @@ Vector3 Player::GetWorldPosition() {
 
 }
 
-AABB Player::GetAABB() { return AABB(); }
+AABB Player::GetAABB() {
+	
+	Vector3 worldPos = GetWorldPosition();
+
+	AABB aabb;
+
+	aabb.min = {worldPos.x - kWidth / 2.0f, worldPos.y - kHeight / 2.0f, worldPos.z - kWidth / 2.0f};
+	aabb.max = {worldPos.x + kWidth / 2.0f, worldPos.y + kHeight / 2.0f, worldPos.z + kWidth / 2.0f};
+
+
+	return aabb;
+
+}
 
 void Player::CheckMapCollisionHit(const CollisionMapInfo& info) {
 	// 移動

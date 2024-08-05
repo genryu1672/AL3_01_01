@@ -45,5 +45,6 @@ void Enemy::Draw() { model_->Draw(worldTransform_, *viewProjection_); }
 
 void Enemy::OnCollision(const Player* player)
 {
-	(void)player;
-}
+	(void)player; }
+
+void Enemy::GetAABB() {}

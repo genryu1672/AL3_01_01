@@ -2,6 +2,7 @@
 #include"WorldTransform.h"
 #include"Model.h"
 #include <Player.h>
+#include"AABB.h"
 
 //前方宣言
 class Player;
@@ -32,7 +33,7 @@ class Enemy {
 	//衝突応答
 	void OnCollision(const Player* player);
 
-
+	void GetAABB();
 
 	private:
 
