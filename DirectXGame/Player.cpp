@@ -468,6 +468,8 @@ Vector3 Player::GetWorldPosition() {
 
 }
 
+AABB Player::GetAABB() { return AABB(); }
+
 void Player::CheckMapCollisionHit(const CollisionMapInfo& info) {
 	// 移動
 	worldTransform_.translation_ += info.move;

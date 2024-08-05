@@ -3,9 +3,7 @@
 #include "TextureManager.h"
 #include <cassert>
 #include"CameraController.h"
-//自キャラと敵キャラの当たり判定
-#pragma region
-#pragma endregion
+
 // コンストラクタ
 GameScene::GameScene() {}
 
@@ -311,5 +309,40 @@ void GameScene::GenerateBlocks() {
 
 
 
+
+}
+
+void GameScene::CheckAllCollisions() {
+
+	// 自キャラと敵キャラの当たり判定
+#pragma region
+
+	//判定対象１と２の座標(宣言)
+	AABB aabb1, aabb2;
+	
+	//自キャラの座標
+	aabb1 = player_->GetAABB();
+	
+	
+	for (Enemy* enemy : enemies_)
+	{
+		// 敵弾の座標
+		aabb2 = enemy->GetAABB();
+
+		// AABB同士の交差判定
+		if (IsColision(aabb1, aabb2)) {
+			// 自キャラの衝突時コールバックを呼び出す
+			player_->OnCollision(enemy);
+			// 敵弾の衝突時コールバックを呼び出す
+			enemy->OnCollision(player_);
+		}
+
+
+
+	}
+	
+	
+
+#pragma endregion
 
 }

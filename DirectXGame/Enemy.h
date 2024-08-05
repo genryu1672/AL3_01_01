@@ -1,6 +1,11 @@
 #pragma once
 #include"WorldTransform.h"
 #include"Model.h"
+#include <Player.h>
+
+//前方宣言
+class Player;
+
 //敵
 class Enemy {
 
@@ -22,6 +27,12 @@ class Enemy {
 	/// 描画処理
 	/// </summary>
 	void Draw();
+
+
+	//衝突応答
+	void OnCollision(const Player* player);
+
+
 
 	private:
 

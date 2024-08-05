@@ -1,6 +1,7 @@
 #pragma once
 #include "Model.h"
 #include "WorldTransform.h"
+#include "Enemy.h"
 // 前方宣言
 class MapChipField;
 
