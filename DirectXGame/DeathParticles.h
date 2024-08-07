@@ -32,11 +32,21 @@ class DeathParticles {
 
 	std::array<WorldTransform, kNumParticles> worldTransforms_;
 
-	//移動の速さ
-	static inline const float kSpeed = 0.1f;
 
-	//分割した１個分の角度
+	//存続時間（消滅までの時間)＜秒＞
+	static inline const float kDuration = 1.0f;
+
+	//移動の速さ
+	static inline const float kSpeed = 0.05f;//1.0
+
+	///分割した１個分の角度
 	static inline const float kAngleUnit = std::numbers::pi_v<float> / kNumParticles;
+
+	//終了フラグ
+	bool isFinished_ = false;
+
+	//経過時間カウント
+	float counter_ = 0.0f;	
 
 
 	private:

@@ -34,11 +34,11 @@ void DeathParticles::Update() {
 		//z軸まわり回転行列
 		Matrix4x4 matrixRotation = MakeRotateZMatrix(angle);
 		//基本ベクトルを回転させて速度ベクトルを得る
-		//velocity = Transform(velocity, matrixRotation);
+		velocity = Transform(velocity, matrixRotation);
 		//移動処理
-		//WorldTransforms_[i].translation_ += velocity;
+		worldTransforms_[i].translation_ += velocity;
 
-		//worldTransforms_[i]->Up
+		
 
 	}
 
@@ -50,18 +50,32 @@ void DeathParticles::Update() {
 
 
 
+	//カウンターを１フレーム分の秒数進める
+	counter_ += 1.0f / 60.0f;
 
+	//存続時間の上限に達したら
+	if (counter_ >= kDuration)
+	{
+		counter_ = kDuration;
+		//終了扱いにする
+		isFinished_ = true;
+	}
+
+	//終了なら何もしない
+	if (isFinished_)
+	{
+		return;
+	}
 
 
 }
 
 void DeathParticles::Draw() {
 
-	//終了なら何もしない
-	//if (isFinished_)
-	//{
-	//
-	//}
+	// 終了なら何もしない
+	if (isFinished_) {
+		return;
+	}
 
 	//3Dモデルを描画
 	for (auto& worldtransform : worldTransforms_)
@@ -69,6 +83,10 @@ void DeathParticles::Draw() {
 		model_->Draw(worldtransform,*viewProjection_);
 		//model_->Draw(worldtransform, *viewProjection_, &objectColor_);
 	}
+
+	
+
+
 
 
 
