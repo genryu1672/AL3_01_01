@@ -75,7 +75,7 @@ void GameScene::Initialize() {
 	for (int32_t i = 0; i < 3; ++i)
 	{
 		Enemy* newEnemy = new Enemy();
-		Vector3 enemyPosition = {10, 16, 0};
+		Vector3 enemyPosition = {10 + i * 4.0f, 1, 0};
 		newEnemy->Initialize(EnemyModel_, &viewProjection_, enemyPosition);
 
 		enemies_.push_back(newEnemy);
