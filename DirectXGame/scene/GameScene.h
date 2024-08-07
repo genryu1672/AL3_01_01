@@ -14,6 +14,7 @@
 #include "MapChipField.h"
 #include "CameraController.h"
 #include"Enemy.h"
+#include"DeathParticles.h"
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -29,6 +30,12 @@ public: // メンバ関数(引数）
 	//Enemy* enemy_ = nullptr;
 
 	Model* EnemyModel_ = nullptr;
+
+	//死亡演出(自キャラ）
+	Model* deathParticlesModel_ = nullptr;
+
+
+	DeathParticles* deathParticles_ = nullptr;
 
 
 	/// <summary>

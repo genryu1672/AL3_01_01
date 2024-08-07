@@ -22,6 +22,8 @@ GameScene::~GameScene() {
 
 	delete cameraController_;
 
+	delete deathParticlesModel_;
+
 	//delete enemy_;
 
 
@@ -69,7 +71,19 @@ void GameScene::Initialize() {
 
 	//enemy_->Initialize(EnemyModel_, &viewProjection_, enemyPosition);
 
-	
+	// 座標をマップチップ番号で指定
+	Vector3 DeathPaticlePosition = mapChipField_->GetMapChipPositionByIndex(7, 7);
+
+
+	deathParticlesModel_ = Model::CreateFromOBJ("deathParticle", true);
+
+	//仮の生成処理。後で消す。
+	deathParticles_ = new DeathParticles;
+	deathParticles_->Initialize(deathParticlesModel_, &viewProjection_, DeathPaticlePosition);
+
+
+
+
 	
 	//敵の生成
 	for (int32_t i = 0; i < 3; ++i)
@@ -177,7 +191,7 @@ void GameScene::Update() {
 	//敵の更新
 	//enemy_->Update();
 
-
+	deathParticles_->Update();
 
 	//全ての当たり判定を行う
 	CheckAllCollisions();
@@ -280,6 +294,10 @@ void GameScene::Draw() {
 	{
 		enemy->Draw();
 	}
+
+	deathParticles_->Draw();
+
+
 
 
 
