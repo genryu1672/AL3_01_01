@@ -1,10 +1,10 @@
 #pragma once
 #include "Model.h"
 #include "WorldTransform.h"
-#include "Enemy.h"
+#include "AABB.h"
 // 前方宣言
 class MapChipField;
-
+class Enemy;
 /// <summary>
 ///	自キャラ
 /// </summary>
@@ -72,6 +72,10 @@ public://引数を書くところ
 
 	//接地状態の切り替え
 	void cellingSwitch(const CollisionMapInfo& info);
+
+
+	// 衝突応答
+	void OnCollision(const Enemy* enemy);
 
 
 	//角

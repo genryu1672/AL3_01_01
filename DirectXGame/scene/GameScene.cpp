@@ -155,6 +155,7 @@ void GameScene::Update() {
 	enemy_->Update();
 
 
+
 	//全ての当たり判定を行う
 	CheckAllCollisions();
 

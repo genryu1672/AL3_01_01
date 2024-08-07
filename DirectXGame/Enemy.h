@@ -32,8 +32,18 @@ class Enemy {
 
 	//衝突応答
 	void OnCollision(const Player* player);
+	
+	
+	// ワールド座標を取得
+	Vector3 GetWorldPosition();
 
-	void GetAABB();
+	// キャラクターの当たり判定サイズ(0.0fとかにするとキャラクターが埋まったりする)
+	static inline const float kWidth = 0.8f;
+	static inline const float kHeight = 0.8f;
+
+
+
+	AABB GetAABB();
 
 	private:
 

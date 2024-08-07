@@ -486,3 +486,5 @@ void Player::CheckMapCollisionHit(const CollisionMapInfo& info) {
 	// 移動
 	worldTransform_.translation_ += info.move;
 }
+
+void Player::OnCollision(const Enemy* enemy) { (void)enemy; }
