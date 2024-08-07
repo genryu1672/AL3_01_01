@@ -17,8 +17,10 @@ void DeathParticles::Initialize(Model* model, ViewProjection* viewProjection, co
 		WorldTransform.Initialize();
 		WorldTransform.translation_ = position;
 	}
-
-
+		
+	//フェードアウト
+	objectColor_.Initialize();
+	color_ = {1, 1, 1, 1};
 
 }
 
@@ -67,6 +69,12 @@ void DeathParticles::Update() {
 		return;
 	}
 
+	color_.w = std::clamp(1.0f-counter_/kDuration, 0.0f, 1.0f);
+
+	//色変更オブジェクトに色の数値を設定する
+	objectColor_.SetColor(color_);
+	// 色変更オブジェクトをVRAMに転送
+	objectColor_.TransferMatrix();
 
 }
 
@@ -80,8 +88,8 @@ void DeathParticles::Draw() {
 	//3Dモデルを描画
 	for (auto& worldtransform : worldTransforms_)
 	{
-		model_->Draw(worldtransform,*viewProjection_);
-		//model_->Draw(worldtransform, *viewProjection_, &objectColor_);
+		//model_->Draw(worldtransform,*viewProjection_);
+		model_->Draw(worldtransform, *viewProjection_, &objectColor_);
 	}
 
 	
