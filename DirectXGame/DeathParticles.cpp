@@ -66,8 +66,8 @@ void DeathParticles::Draw() {
 	//3Dモデルを描画
 	for (auto& worldtransform : worldTransforms_)
 	{
-		//model_->Draw(worldTransform,*viewProjection_);
-		model_->Draw(worldtransform, *viewProjection_, &objectColor_);
+		model_->Draw(worldtransform,*viewProjection_);
+		//model_->Draw(worldtransform, *viewProjection_, &objectColor_);
 	}
 
 

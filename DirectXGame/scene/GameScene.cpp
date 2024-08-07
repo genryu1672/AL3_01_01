@@ -72,7 +72,7 @@ void GameScene::Initialize() {
 	//enemy_->Initialize(EnemyModel_, &viewProjection_, enemyPosition);
 
 	// 座標をマップチップ番号で指定
-	Vector3 DeathPaticlePosition = mapChipField_->GetMapChipPositionByIndex(7, 7);
+	Vector3 DeathPaticlePosition = mapChipField_->GetMapChipPositionByIndex(3, 18);
 
 
 	deathParticlesModel_ = Model::CreateFromOBJ("deathParticle", true);
@@ -89,7 +89,7 @@ void GameScene::Initialize() {
 	for (int32_t i = 0; i < 3; ++i)
 	{
 		Enemy* newEnemy = new Enemy();
-		Vector3 enemyPosition = {10 + i * 4.0f, 1, 0};
+		Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(5+i*4, 18); // Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(3, 18);
 		newEnemy->Initialize(EnemyModel_, &viewProjection_, enemyPosition);
 
 		enemies_.push_back(newEnemy);
@@ -118,7 +118,7 @@ void GameScene::Initialize() {
 	player_ = new Player();
 
 	// 座標をマップチップ番号で指定
-	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(7, 7);
+	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(3, 18);
 	
 	// プレイヤーの初期化
 	player_->Initialize(modelPlayer_, &viewProjection_,playerPosition);//元player_->Initialize(modelPlayer_, &viewProjection_);
