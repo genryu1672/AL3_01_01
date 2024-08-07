@@ -22,13 +22,22 @@ GameScene::~GameScene() {
 
 	delete cameraController_;
 
-	delete enemy_;
+	//delete enemy_;
+
 
 	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
 		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
 			delete worldTransformBlock;
 		}
 	}
+
+	//解放
+	for (Enemy* enemy : enemies_) {
+		delete enemy;
+	}
+
+
+
 	// worldTransformBlocks_.clear();
 
 	delete debugCamera_;
@@ -54,11 +63,25 @@ void GameScene::Initialize() {
 	//敵初期化
 	EnemyModel_ = Model::CreateFromOBJ("enemy", true);
 
-	Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(17, 18);
+	//Vector3 enemyPosition = mapChipField_->GetMapChipPositionByIndex(17, 18);
 
-	enemy_ = new Enemy();
+	//enemy_ = new Enemy();
 
-	enemy_->Initialize(EnemyModel_, &viewProjection_, enemyPosition);
+	//enemy_->Initialize(EnemyModel_, &viewProjection_, enemyPosition);
+
+	
+	
+	//敵の生成
+	for (int32_t i = 0; i < 3; ++i)
+	{
+		Enemy* newEnemy = new Enemy();
+		Vector3 enemyPosition = {10, 16, 0};
+		newEnemy->Initialize(EnemyModel_, &viewProjection_, enemyPosition);
+
+		enemies_.push_back(newEnemy);
+	}
+
+
 
 	//表示ブロックの生成
 	GenerateBlocks();
@@ -152,12 +175,18 @@ void GameScene::Update() {
 	cameraController_->Update();
 
 	//敵の更新
-	enemy_->Update();
+	//enemy_->Update();
 
 
 
 	//全ての当たり判定を行う
 	CheckAllCollisions();
+
+
+	for (Enemy* enemy : enemies_)
+	{
+		enemy->Update();
+	}
 
 
 	// ブロックの更新
@@ -244,7 +273,14 @@ void GameScene::Draw() {
 	skydome_->Draw();
 
 	//敵の描画処理
-	enemy_->Draw();
+	//enemy_->Draw();
+
+	
+	for (Enemy* enemy : enemies_)
+	{
+		enemy->Draw();
+	}
+
 
 
 	// ブロックの描画

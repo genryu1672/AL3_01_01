@@ -26,7 +26,7 @@ public: // メンバ関数(引数）
 	GameScene();
 
 	//敵
-	Enemy* enemy_ = nullptr;
+	//Enemy* enemy_ = nullptr;
 
 	Model* EnemyModel_ = nullptr;
 
@@ -95,10 +95,13 @@ private: // メンバ変数（関数）
 
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
 
+	
+	
 	//敵の複数化
 	std::list<Enemy*> enemies_;
 
-
+	//敵
+	Model* modelEnemy_;
 
 	// デバッグカメラの有効
 	bool isDebugCameraActive_ = false;
