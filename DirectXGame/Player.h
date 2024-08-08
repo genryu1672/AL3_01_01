@@ -101,6 +101,8 @@ public://引数を書くところ
 	//AABBを取得
 	AABB GetAABB();
 
+	// デスフラグのgetter
+	bool IsDead() const { return isDead_; } 
 
 private://関数（メンバ変数）
 	
@@ -127,6 +129,12 @@ private://関数（メンバ変数）
 
 	//接地状態フラグ
 	bool onGround_ = true;
+
+
+	//デスフラグ
+	bool isDead_ = false;
+
+	
 
 
 	//慣性移動

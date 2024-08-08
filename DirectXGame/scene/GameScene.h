@@ -63,7 +63,8 @@ public: // メンバ関数(引数）
 	//全ての当たり判定を行う
 	void CheckAllCollisions();
 
-
+	//フェーズの切り替え
+	void ChangePhase();
 
 
 private: // メンバ変数（関数）
@@ -73,8 +74,8 @@ private: // メンバ変数（関数）
 
 	// マップチップフィールド
 	MapChipField* mapChipField_;
-
 	
+
 
 	// ビュープロジェクション生成
 	ViewProjection viewProjection_;
@@ -102,7 +103,16 @@ private: // メンバ変数（関数）
 
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
 
-	
+	// ゲームのフェーズ（型）
+	enum class Phase
+	{
+		kPlay,//ゲームプレイ
+		kDeath,//デス演出
+	};
+
+	//ゲームの現在フェーズ（変数）	
+	Phase phase_;
+
 	
 	//敵の複数化
 	std::list<Enemy*> enemies_;
@@ -118,6 +128,14 @@ private: // メンバ変数（関数）
 
 	//カメラコントローラー
 	CameraController* cameraController_;
+
+	// デスフラグ
+	bool isDead_ = false;
+
+	// デスフラグのgetter
+	bool IsDead() const { return isDead_; } 
+
+
 
 
 	/// <summary>

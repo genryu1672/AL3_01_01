@@ -489,7 +489,11 @@ void Player::CheckMapCollisionHit(const CollisionMapInfo& info) {
 
 void Player::OnCollision(const Enemy* enemy) { 
 	
-	
+	//当たったら死ぬ
+	isDead_ = true;
+
+
+
 	velocity_.y = 1;
 	
 	(void)enemy;

@@ -71,19 +71,6 @@ void GameScene::Initialize() {
 
 	//enemy_->Initialize(EnemyModel_, &viewProjection_, enemyPosition);
 
-	// 座標をマップチップ番号で指定
-	Vector3 DeathPaticlePosition = mapChipField_->GetMapChipPositionByIndex(3, 18);
-
-
-	deathParticlesModel_ = Model::CreateFromOBJ("deathParticle", true);
-
-	//仮の生成処理。後で消す。
-	deathParticles_ = new DeathParticles;
-	deathParticles_->Initialize(deathParticlesModel_, &viewProjection_, DeathPaticlePosition);
-
-
-
-
 	
 	//敵の生成
 	for (int32_t i = 0; i < 3; ++i)
@@ -141,6 +128,10 @@ void GameScene::Initialize() {
 	// ブロックのモデルを読み込む
 	modelBlock_ = Model::CreateFromOBJ("block",true);
 
+
+	// ゲームプレイフェーズから開始
+	phase_ = Phase::kPlay;
+
 	// 要素数
 	//const uint32_t kNumBlockVirtical = 10;//10
 	//const uint32_t kNumBlockHorizontal = 100;//20
@@ -179,54 +170,10 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 
-	// プレイヤーの更新
-	player_->Update();
-
-	// 天球の更新
-	skydome_->Update();
-
-	//カメラコントローラーの更新
-	cameraController_->Update();
-
-	//敵の更新
-	//enemy_->Update();
-
-	deathParticles_->Update();
-
-	//全ての当たり判定を行う
-	CheckAllCollisions();
+	ChangePhase();
 
 
-	for (Enemy* enemy : enemies_)
-	{
-		enemy->Update();
-	}
 
-
-	// ブロックの更新
-	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
-
-		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
-
-			if (!worldTransformBlock)
-				continue;
-
-			//// 平行移動行列
-			// Matrix4x4 result = {
-			//     1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, worldTransformBlock->translation_.x, worldTransformBlock->translation_.y,
-			//     worldTransformBlock->translation_.z, 1.0f};
-
-			// Matrix4x4 matWorld = MakeAffineMatrix(worldTransformBlock->scale_, worldTransformBlock->rotation_, worldTransformBlock->translation_);
-
-			//// 平行移動だけ代入
-			// worldTransformBlock->matWorld_ = matWorld;
-
-			//// 定数バッファに転送する
-			// worldTransformBlock->TransferMatrix();
-
-			worldTransformBlock->UpdateMatrix();
-		}
-	}
 
 	// デバッグカメラの更新
 	debugCamera_->Update();
@@ -281,8 +228,11 @@ void GameScene::Draw() {
 	/// </summary>
 
 	// プレイヤーの描画処理
-	player_->Draw();
-
+	if (phase_ == Phase::kPlay)
+	{
+		player_->Draw();
+	}
+	
 	// 天球の描画処理
 	skydome_->Draw();
 
@@ -295,7 +245,13 @@ void GameScene::Draw() {
 		enemy->Draw();
 	}
 
-	deathParticles_->Draw();
+
+
+	if (deathParticles_)
+	{
+		deathParticles_->Draw();
+	}
+	
 
 
 
@@ -399,5 +355,131 @@ void GameScene::CheckAllCollisions() {
 	
 
 #pragma endregion
+
+}
+
+void GameScene::ChangePhase() {
+
+	switch (phase_) {
+	case Phase::kPlay:
+		// ゲームプレイフェーズの処理
+
+
+		// プレイヤーの更新
+		player_->Update();
+
+		// 天球の更新
+		skydome_->Update();
+
+		// カメラコントローラーの更新
+		cameraController_->Update();
+
+		// 敵の更新
+		// enemy_->Update();
+
+		
+
+		// 全ての当たり判定を行う
+		CheckAllCollisions();
+
+		for (Enemy* enemy : enemies_) {
+			enemy->Update();
+		}
+
+		// ブロックの更新
+		for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
+
+			for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+
+				if (!worldTransformBlock)
+					continue;
+
+				//// 平行移動行列
+				// Matrix4x4 result = {
+				//     1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, worldTransformBlock->translation_.x, worldTransformBlock->translation_.y,
+				//     worldTransformBlock->translation_.z, 1.0f};
+
+				// Matrix4x4 matWorld = MakeAffineMatrix(worldTransformBlock->scale_, worldTransformBlock->rotation_, worldTransformBlock->translation_);
+
+				//// 平行移動だけ代入
+				// worldTransformBlock->matWorld_ = matWorld;
+
+				//// 定数バッファに転送する
+				// worldTransformBlock->TransferMatrix();
+
+				worldTransformBlock->UpdateMatrix();
+			}
+		}
+
+		isDead_ = player_->IsDead();
+
+		if (isDead_ == true)
+		{
+			//死亡演出フェーズに切り替え
+			phase_ = Phase::kDeath;
+			//自キャラの座標を取得
+			const Vector3& deathParticlesPosition = player_->GetWorldPosition();
+
+			// 座標をマップチップ番号で指定
+			//Vector3 DeathPaticlePosition = mapChipField_->GetMapChipPositionByIndex(3, 18);
+
+			deathParticlesModel_ = Model::CreateFromOBJ("deathParticle", true);
+
+			// 仮の生成処理。後で消す。
+			deathParticles_ = new DeathParticles;
+			deathParticles_->Initialize(deathParticlesModel_, &viewProjection_, deathParticlesPosition);
+
+
+
+		}
+
+
+		break;
+	case Phase::kDeath:
+		// デス演出フェーズの処理
+
+		// 天球の更新
+		skydome_->Update();
+
+		for (Enemy* enemy : enemies_) {
+			enemy->Update();
+		}
+
+		deathParticles_->Update();
+
+		
+		// カメラコントローラーの更新
+		cameraController_->Update();
+
+
+		// ブロックの更新
+		for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
+
+			for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+
+				if (!worldTransformBlock)
+					continue;
+
+				//// 平行移動行列
+				// Matrix4x4 result = {
+				//     1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, worldTransformBlock->translation_.x, worldTransformBlock->translation_.y,
+				//     worldTransformBlock->translation_.z, 1.0f};
+
+				// Matrix4x4 matWorld = MakeAffineMatrix(worldTransformBlock->scale_, worldTransformBlock->rotation_, worldTransformBlock->translation_);
+
+				//// 平行移動だけ代入
+				// worldTransformBlock->matWorld_ = matWorld;
+
+				//// 定数バッファに転送する
+				// worldTransformBlock->TransferMatrix();
+
+				worldTransformBlock->UpdateMatrix();
+			}
+		}
+		break;
+	}
+
+
+
 
 }
