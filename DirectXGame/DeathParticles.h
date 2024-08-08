@@ -48,13 +48,16 @@ class DeathParticles {
 	//経過時間カウント
 	float counter_ = 0.0f;	
 
+	// デスフラグのgetter
+	bool IsFinished() const { return finished_; }
+
 
 	private:
 
 	// モデル
 	Model* model_ = nullptr;
 
-
+	bool finished_ = false;
 
 	//色変更オブジェクト
 	ObjectColor objectColor_;

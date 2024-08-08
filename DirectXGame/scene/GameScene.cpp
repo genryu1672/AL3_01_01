@@ -438,6 +438,13 @@ void GameScene::ChangePhase() {
 	case Phase::kDeath:
 		// デス演出フェーズの処理
 
+		if (deathParticles_ && deathParticles_->IsFinished())
+		{
+			finished_ = true;
+		}
+
+
+
 		// 天球の更新
 		skydome_->Update();
 

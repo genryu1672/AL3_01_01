@@ -66,6 +66,12 @@ public: // メンバ関数(引数）
 	//フェーズの切り替え
 	void ChangePhase();
 
+	// デスフラグのgetter
+	bool IsDead() const { return isDead_; } 
+
+	// デスフラグのgetter
+	bool IsFinished() const { return finished_; }
+
 
 private: // メンバ変数（関数）
 	DirectXCommon* dxCommon_ = nullptr;
@@ -132,10 +138,11 @@ private: // メンバ変数（関数）
 	// デスフラグ
 	bool isDead_ = false;
 
-	// デスフラグのgetter
-	bool IsDead() const { return isDead_; } 
 
 
+	bool finished_ = false;
+
+	
 
 
 	/// <summary>
