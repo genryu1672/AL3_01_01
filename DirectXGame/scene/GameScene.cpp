@@ -364,7 +364,6 @@ void GameScene::ChangePhase() {
 	case Phase::kPlay:
 		// ゲームプレイフェーズの処理
 
-
 		// プレイヤーの更新
 		player_->Update();
 
