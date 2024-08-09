@@ -436,12 +436,7 @@ void GameScene::ChangePhase() {
 
 		break;
 	case Phase::kDeath:
-		// デス演出フェーズの処理
-
-		if (deathParticles_ && deathParticles_->IsFinished())
-		{
-			finished_ = true;
-		}
+		
 
 
 
@@ -483,6 +478,18 @@ void GameScene::ChangePhase() {
 				worldTransformBlock->UpdateMatrix();
 			}
 		}
+
+		// デス演出フェーズの処理
+
+		if ( deathParticles_->IsFinished()) {
+			finished_ = true;
+		}
+
+
+
+
+
+
 		break;
 	}
 

@@ -42,14 +42,14 @@ class DeathParticles {
 	///分割した１個分の角度
 	static inline const float kAngleUnit = 2*std::numbers::pi_v<float> / kNumParticles;
 
-	//終了フラグ
-	bool isFinished_ = false;
+	
+	//bool isFinished_ = false;
 
 	//経過時間カウント
 	float counter_ = 0.0f;	
 
 	// デスフラグのgetter
-	bool IsFinished() const { return finished_; }
+	bool IsFinished() const { return isFinished_; }
 
 
 	private:
@@ -57,7 +57,8 @@ class DeathParticles {
 	// モデル
 	Model* model_ = nullptr;
 
-	bool finished_ = false;
+	// 終了フラグ
+	bool isFinished_ = false;
 
 	//色変更オブジェクト
 	ObjectColor objectColor_;

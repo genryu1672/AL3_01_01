@@ -18,6 +18,10 @@ class TitleScene {
 	/// 初期化
 	/// </summary>
 	// 初期化
+	TitleScene();
+	~TitleScene();
+
+
 
 	void Initialize();
 
@@ -49,4 +53,9 @@ class TitleScene {
 
 	float timer_ = 0.0f;
 	static inline const float kMotionTime = 1.0f;
+
+	Input* input_ = nullptr;
+	Audio* audio_ = nullptr;
+
+
 };
